@@ -1,7 +1,7 @@
 import TemplateElement from "./template-element";
 import template from "./templates/notifications.dot";
-import {getGuild} from "../guilds";
-import {getObjectiveName} from "../objectives";
+import {getGuild} from "../data/guilds";
+import {getObjectiveName} from "../data/objectives";
 
 export default class Notifications extends TemplateElement {
 	connectedCallback() {

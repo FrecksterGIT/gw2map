@@ -1,5 +1,5 @@
-import * as timetools from "../timetools";
-import {getGuild} from "../guilds";
+import * as timetools from "../utils/timetools";
+import {getGuild} from "../data/guilds";
 import TemplateElement from './template-element';
 import template from './templates/gw2-objective.dot';
 

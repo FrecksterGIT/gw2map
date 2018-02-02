@@ -1,4 +1,4 @@
-import * as objectives from "../objectives";
+import * as objectives from "../data/objectives";
 import TemplateElement from './template-element';
 import template from './templates/gw2-borderland.dot';
 

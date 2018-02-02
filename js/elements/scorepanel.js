@@ -1,7 +1,7 @@
 import TemplateElement from "./template-element";
 import template from "./templates/scorepanel.dot";
-import {getMatches} from "../matches";
-import {getWorlds} from "../worlds";
+import {getMatches} from "../data/matches";
+import Worlds from "../data/worlds";
 import Chart from "chart.js";
 export default class ScorePanel extends TemplateElement {
 	connectedCallback() {
@@ -16,7 +16,7 @@ export default class ScorePanel extends TemplateElement {
 	getTemplateData() {
 		let matches = [];
 		return new Promise(resolve => {
-			getWorlds().then(worlds => {
+			new Worlds().getWorlds().then(worlds => {
 				getMatches().then(result => {
 					result.forEach(match => {
 						matches.push(this.fillMatchData(worlds, match));
@@ -76,7 +76,7 @@ export default class ScorePanel extends TemplateElement {
 	}
 
 	redraw(changedDataEvent) {
-		getWorlds().then(worlds => {
+		new Worlds().getWorlds().then(worlds => {
 			let data = this.fillMatchData(worlds, changedDataEvent.data.changedData);
 			let table = this.shadowRoot.querySelector('table[data-match-id="' + data.id + '"]');
 			this.fillTable(table, data);

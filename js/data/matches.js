@@ -1,5 +1,6 @@
 import diff from 'deep-diff';
-import {handleChange} from './changes';
+import {handleChange} from '../utils/changes';
+import Promise from 'bluebird';
 
 function getMatch(id) {
 	return fetch('https://api.guildwars2.com/v2/wvw/matches/' + id).then(response => {
@@ -10,13 +11,7 @@ function getMatch(id) {
 function getMatches() {
 	return fetch('https://api.guildwars2.com/v2/wvw/matches').then(response => {
 		return response.json().then(matchIds => {
-			let matches = [];
-			matchIds.forEach(currentItem => {
-				matches.push(getMatch(currentItem));
-			});
-			return Promise.all(matches).then(result => {
-				return result;
-			});
+			return Promise.map(matchIds, (currentItem) => getMatch(currentItem));
 		});
 	});
 }

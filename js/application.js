@@ -4,7 +4,7 @@ import GW2Objective from './elements/objective';
 import Notifications from './elements/notifications';
 import ScorePanel from './elements/scorepanel';
 import Cookies from 'universal-cookie';
-import {updateMatchData} from './matches';
+import {updateMatchData} from './data/matches';
 
 const getMatchId = () => {
 	const cookies = new Cookies();
