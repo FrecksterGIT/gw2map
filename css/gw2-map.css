@@ -1,0 +1,35 @@
+:host {
+    width: 100%;
+    position: relative;
+    background: url(../assets/map.mixed.new.3.jpg) no-repeat center center;
+    background-size: contain;
+}
+:host gw2-borderland {
+    display: block;
+    width: 30%;
+    height: auto;
+    position: absolute;
+}
+:host gw2-borderland#RedHome {
+    top: 1.6%;
+    left: 37.5%;
+}
+:host gw2-borderland#BlueHome {
+    top: 28.6%;
+    left: 73.7%;
+}
+:host gw2-borderland#GreenHome {
+    top: 37.7%;
+    left: 1.7%;
+}
+:host gw2-borderland#Center {
+    top: 58%;
+    left: 36.8%;
+    width: 27%;
+}
+:host gw2-borderland:before {
+    content: "";
+    float: left;
+    width: 100%;
+    padding-bottom: 100%;
+}

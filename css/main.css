@@ -1,0 +1,19 @@
+body {
+	font: 11px/13px 'Open Sans', sans-serif, arial;
+	margin: 0;
+}
+h1 {
+	font: 24px/30px 'Open Sans', sans-serif, arial;
+	margin: 0;
+}
+section {
+    width: 100%;
+    min-width: 900px;
+    max-width: 1200px;
+}
+gw2-map {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 64.77%;
+}
