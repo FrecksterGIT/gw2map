@@ -1,11 +1,23 @@
-import * as map from './elements/map';
-import * as borderland from './elements/borderland';
-import * as objective from './elements/objective';
-import * as scorepanel from './elements/scorepanel';
+import GW2Map from './elements/map';
+import Borderland from './elements/borderland';
+import GW2Objective from './elements/objective';
+import Notifications from './elements/notifications';
+import ScorePanel from './elements/scorepanel';
+import Cookies from 'universal-cookie';
+import {updateMatchData} from './matches';
 
-import * as matches from './matches';
-import * as objectives from "./objectives";
+const getMatchId = () => {
+	const cookies = new Cookies();
+	let matchId = cookies.get("gw2-world");
+	if (!matchId) { matchId = '2-1'; }
+	let urlMatch = window.location.pathname.match(/\d+-\d+/);
+	if (urlMatch) {
+		matchId = urlMatch[0];
+	}
+	cookies.set('gw2-world', matchId);
+	return matchId;
+};
 
-setInterval(matches.updateMatchData, 5000);
+setInterval(updateMatchData, 5000, getMatchId());
 
-export {objectives, matches, borderland, map, objective, scorepanel};
+export {Borderland, GW2Map, GW2Objective, ScorePanel, Notifications};

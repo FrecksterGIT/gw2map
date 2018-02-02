@@ -1,0 +1,43 @@
+:host table {
+	color: #707070;
+	display: none;
+	font: 11px/13px "Open Sans", sans-serif, arial;
+	white-space: nowrap;
+}
+
+:host table.active {
+	display: block;
+}
+
+:host .name {
+	position: relative;
+}
+
+:host .green_world .name {
+	color: #1e7b2d;
+}
+
+:host .blue_world .name {
+	color: #1a4da1;
+}
+
+:host .red_world .name {
+	color: #b02822;
+}
+
+:host .name span {
+	background: #fff;
+	border: 1px solid #707070;
+	color: #707070;
+	display: none;
+	left: 90px;
+	padding: 2px 5px;
+	position: absolute;
+	top: 0;
+	width: 100px;
+	z-index: 1;
+}
+
+:host .name:hover span {
+	display: block;
+}

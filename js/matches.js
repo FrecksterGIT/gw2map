@@ -23,8 +23,8 @@ function getMatches() {
 
 let currentMatchData = {};
 
-function updateMatchData() {
-	getMatch('2-2').then(newMatchData => {
+function updateMatchData(match) {
+	getMatch(match).then(newMatchData => {
 		let diffs = diff(currentMatchData, newMatchData);
 		if (diffs) {
 			diffs.forEach(change => {

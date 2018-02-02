@@ -52,6 +52,7 @@ export default class ScorePanel extends TemplateElement {
 		let data = changedDataEvent.data.changedData;
 		let table = this.shadowRoot.querySelector('table[data-match-id="' + data.id + '"]');
 		let scores = this.getCurrentScores(data);
+		table.classList.add("active");
 		table.querySelector(".green_world .current_score").innerHTML = scores.green;
 		table.querySelector(".blue_world .current_score").innerHTML = scores.blue;
 		table.querySelector(".red_world .current_score").innerHTML = scores.red;

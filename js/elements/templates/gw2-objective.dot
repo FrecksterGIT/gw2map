@@ -1,4 +1,15 @@
 <link rel="stylesheet" type="text/css" href="css/gw2-objective.css" />
+{{? context.type === "Castle"}}
+	<link rel="stylesheet" type="text/css" href="css/obj-castle.css" />
+{{?? context.type === "Keep"}}
+	<link rel="stylesheet" type="text/css" href="css/obj-keep.css" />
+{{?? context.type === "Tower"}}
+	<link rel="stylesheet" type="text/css" href="css/obj-tower.css" />
+{{?? context.type === "Camp"}}
+	<link rel="stylesheet" type="text/css" href="css/obj-camp.css" />
+{{?? context.type === "Ruins"}}
+	<link rel="stylesheet" type="text/css" href="css/obj-ruins.css" />
+{{?}}
 <div class="objective {{=context.type}}" owner="Neutral">
 	{{? context.type !== "Ruins"}}
 	<div class="iteminfos">

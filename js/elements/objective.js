@@ -87,7 +87,7 @@ export default class GW2Objective extends TemplateElement {
 		if (this.objectiveData.claimed_by) {
 			this.shadowRoot.querySelector(".objective").setAttribute("claimed", "");
 			getGuild(this.objectiveData.claimed_by).then(guildData => {
-				this.shadowRoot.querySelector(".guild_name").innerHTML = guildData.guild_name;
+				this.shadowRoot.querySelector(".guild_name").innerHTML = guildData.name;
 				this.shadowRoot.querySelector(".guild_tag").innerHTML = guildData.tag;
 			});
 		}

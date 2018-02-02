@@ -5,7 +5,7 @@ const getGuild = (guildId) => {
 		return Promise.resolve(guilds[guildId]);
 	}
 	else {
-		return fetch("https://api.guildwars2.com/v1/guild_details.json?guild_id=" + guildId).then(response => {
+		return fetch("https://api.guildwars2.com/v2/guild/" + guildId).then(response => {
 			return response.json().then(guildData => {
 				guilds[guildId] = guildData;
 				return guilds[guildId];

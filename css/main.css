@@ -1,19 +1,29 @@
 body {
-	font: 11px/13px 'Open Sans', sans-serif, arial;
+	font: 11px/13px "Open Sans", sans-serif, arial;
 	margin: 0;
 }
+
 h1 {
-	font: 24px/30px 'Open Sans', sans-serif, arial;
+	font: 24px/30px "Open Sans", sans-serif, arial;
 	margin: 0;
 }
+
 section {
-    width: 100%;
-    min-width: 900px;
-    max-width: 1200px;
+	display: flex;
+	margin: 0 auto;
+	max-width: 1200px;
+	min-width: 900px;
+	width: 90%;
 }
+
 gw2-map {
-    display: block;
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: 64.77%;
+	display: block;
+	padding-bottom: 69.89%;
+	width: 100%;
+}
+
+gw2-scorepanel,
+gw2-notifications {
+	display: block;
+	width: 50%;
 }
