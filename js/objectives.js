@@ -8,11 +8,34 @@ const MAP_IDS = [38, 1099, 96, 95];
 
 const RELEVANT_OBJECTIVES = ["Castle", "Keep", "Tower", "Camp", "Ruins"];
 
+let objectives = [];
 
 function getObjectives() {
-	return fetch('https://api.guildwars2.com/v2/wvw/objectives?ids=all').then(response => {
-		return response.json().then(objectives => {
-			return objectives.filter(obj => MAP_IDS.indexOf(obj.map_id) >= 0 && RELEVANT_OBJECTIVES.indexOf(obj.type) >= 0);
+	if (objectives.length > 0) {
+		return Promise.resolve(objectives);
+	}
+	else {
+		return fetch(
+			"https://api.guildwars2.com/v2/wvw/objectives?ids=all"
+		).then(response => {
+			return response.json().then(objs => {
+				objectives = objs.filter(
+					obj =>
+						MAP_IDS.indexOf(obj.map_id) >= 0 &&
+						RELEVANT_OBJECTIVES.indexOf(obj.type) >= 0
+				);
+				return objectives;
+			});
+		});
+	}
+}
+
+function getObjectiveName(objective) {
+	return getObjectives().then(objs => {
+		objs.forEach(obj => {
+			if (objective.id === obj.id) {
+				return obj.name;
+			}
 		});
 	});
 }
@@ -28,4 +51,4 @@ function getObjectivePosition(objective) {
 	return [0, 0];
 }
 
-export {getObjectives, getObjectivePosition};
+export {getObjectives, getObjectivePosition, getObjectiveName};

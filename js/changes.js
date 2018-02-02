@@ -1,3 +1,16 @@
+function sendChangedEventToNotifications(change, newObjectiveData) {
+	let changeEvent = new MessageEvent("gw2notification", {
+		bubbles: true,
+		composed: true,
+		data: {
+			type: change.kind,
+			change: change,
+			changedData: newObjectiveData
+		}
+	});
+	window.dispatchEvent(changeEvent);
+}
+
 function sendChangeEventToObjective(change, newObjectiveData) {
 	let changeEvent = new MessageEvent("gw2objective." + newObjectiveData.id, {
 		bubbles: true,
@@ -9,6 +22,7 @@ function sendChangeEventToObjective(change, newObjectiveData) {
 		}
 	});
 	window.dispatchEvent(changeEvent);
+	sendChangedEventToNotifications(change, newObjectiveData);
 }
 
 function sendChangeEventToScoreboard(change, newData) {

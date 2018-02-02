@@ -41,3 +41,29 @@
 :host .name:hover span {
 	display: block;
 }
+
+:host .bar > div {
+	width: 75px;
+}
+
+:host .bar > div > div {
+	border-radius: 5px;
+	height: 6px;
+	margin: 0;
+}
+
+:host .green_world .bar > div > div {
+	background: #1e7b2d;
+}
+
+:host .blue_world .bar > div > div {
+	background: #1a4da1;
+}
+
+:host .red_world .bar > div > div {
+	background: #b02822;
+}
+
+:host thead {
+	text-align: center;
+}

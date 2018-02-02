@@ -1,8 +1,7 @@
 {
   "name": "gw2map",
   "version": "0.0.1",
-  "author":
-    "Sven Müller <sven.mueller@breathless-code.de> (http://www.breathless-code.de)",
+  "author": "Sven Müller <sven.mueller@breathless-code.de> (http://www.breathless-code.de)",
   "license": "GPL-3.0",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -20,6 +19,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "chart.js": "^2.7.1",
     "deep-diff": "^0.3.8",
     "dot": "^1.1.2",
     "universal-cookie": "^2.1.2"
@@ -42,7 +42,10 @@
     "type": "git",
     "url": "git+https://github.com/FrecksterGIT/gw2map.git"
   },
-  "keywords": ["gw2", "wvw"],
+  "keywords": [
+    "gw2",
+    "wvw"
+  ],
   "bugs": {
     "url": "https://github.com/FrecksterGIT/gw2map/issues"
   },
