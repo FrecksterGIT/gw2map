@@ -1,7 +1,8 @@
 {
   "name": "gw2map",
   "version": "0.0.1",
-  "author": "Sven Müller <sven.mueller@breathless-code.de> (http://www.breathless-code.de)",
+  "author":
+    "Sven Müller <sven.mueller@breathless-code.de> (http://www.breathless-code.de)",
   "license": "GPL-3.0",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -25,18 +26,14 @@
   },
   "description": "Small Webapplication for World vs World in Guild Wars 2.",
   "scripts": {
-    "build": "npm-run-all clean-dist webpack clean-dist copy",
+    "build": "npm-run-all clean-dist webpack copy",
     "clean-dist": "rimraf ./dist",
     "copy": "npm-run-all copy:*",
-    "copy:assets": "cpx ./assets/** ./dist/assets",
-    "copy:css": "cpx ./css/** ./dist/css",
-    "copy:build": "cpx ./build/** ./dist/build",
-    "copy:base": "cpx ./index.html ./dist",
-    "copy:redirect": "cpx ./.htaccess ./dist",
+    "copy:docroot": "cpx ./docroot/** ./dist",
     "develop": "npm-run-all -p webpack-watch run-server",
     "eslint": "eslint js/**/*.js",
-    "run-server": "simple-server 8000",
-    "stylelint": "stylelint css/*.css",
+    "run-server": "simple-server docroot 8000",
+    "stylelint": "stylelint docroot/css/*.css",
     "test": "npm-run-all stylelint eslint",
     "webpack": "webpack",
     "webpack-watch": "webpack --watch"
@@ -45,10 +42,7 @@
     "type": "git",
     "url": "git+https://github.com/FrecksterGIT/gw2map.git"
   },
-  "keywords": [
-    "gw2",
-    "wvw"
-  ],
+  "keywords": ["gw2", "wvw"],
   "bugs": {
     "url": "https://github.com/FrecksterGIT/gw2map/issues"
   },

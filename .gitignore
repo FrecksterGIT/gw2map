@@ -59,3 +59,5 @@ typings/
 
 /build
 /dist
+/docroot/js/application.js
+/docroot/js/application.js.map

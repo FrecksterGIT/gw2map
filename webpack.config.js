@@ -8,7 +8,7 @@ module.exports = {
 		'application': 'application'
 	},
 	output: {
-		path: path.resolve(__dirname, './build'),
+		path: path.resolve(__dirname, './docroot/js'),
 		filename: '[name].js',
 		umdNamedDefine: true,
 		libraryTarget: 'umd',
