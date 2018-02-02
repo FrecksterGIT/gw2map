@@ -30,4 +30,8 @@ function updateMatchData(match) {
 	});
 }
 
-export {getMatches, getMatch, updateMatchData};
+function getCurrentMatchData() {
+	return currentMatchData;
+}
+
+export {getMatches, getMatch, updateMatchData, getCurrentMatchData};

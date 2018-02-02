@@ -1,0 +1,12 @@
+{
+	"world": "Mundo",
+	"points": "Total de puntos",
+	"income": "Puntos",
+	"vpoints": "Puntos de victoria",
+	"borderlands": "Tierras de %s",
+	"eb": "Campos de batalla eternos",
+	"turnedString":
+		"<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> en <strong class=\"%s\">%s</strong> capturado por <strong class=\"%s\">%s</strong>.",
+	"claimedString": "<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> reclamado por <strong>[%s]</strong> %s.",
+	"markedString": "<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> was marked."
+}

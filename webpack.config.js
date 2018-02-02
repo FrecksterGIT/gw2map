@@ -3,7 +3,7 @@
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
-module.exports = {
+const config = {
 	context: path.resolve(__dirname, "js"),
 	entry: {
 		application: "application"
@@ -37,16 +37,23 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
+	plugins: [],
+	watchOptions: {
+		aggregateTimeout: 300,
+		poll: 1000
+	}
+};
+
+// eslint-disable-next-line no-process-env
+if (process.env.NODE_ENV !== "development") {
+	config.plugins.push(
 		new UglifyJsPlugin({
 			sourceMap: true,
 			uglifyOptions: {
 				compress: true
 			}
 		})
-	],
-	watchOptions: {
-		aggregateTimeout: 300,
-		poll: 1000
-	}
-};
+	);
+}
+
+module.exports = config;

@@ -110,9 +110,7 @@ export default class GW2Objective extends TemplateElement {
 		this.objectiveData = changedDataEvent.data.changedData;
 		this.setOwner();
 		if (!this.isRuins()) {
-			if (changedDataEvent.data.type === "N") {
-				this.updateTimeInfos();
-			}
+			this.updateTimeInfos();
 			this.setDollieCount();
 			this.setGuild();
 		}

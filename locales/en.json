@@ -1,0 +1,12 @@
+{
+	"world": "World",
+	"points": "Points",
+	"income": "Income",
+	"vpoints": "Victory Points",
+	"borderlands": "%s Borderlands",
+	"eb": "Eternal Battlegrounds",
+	"turnedString":
+		"<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> on <strong class=\"%s\">%s</strong> turned by <strong class=\"%s\">%s</strong>.",
+	"claimedString": "<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> claimed by <strong>[%s]</strong> %s.",
+	"markedString": "<strong data-highlight-id=\"%s\" class=\"objective %s\">%s</strong> was marked."
+}

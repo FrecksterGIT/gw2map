@@ -1,0 +1,16 @@
+:host .notifications {
+	height: 100px;
+	overflow-y: scroll;
+}
+
+:host .Green, :host .GreenHome {
+	color: #1e7b2d;
+}
+
+:host .Blue, :host .BlueHome {
+	color: #1a4da1;
+}
+
+:host .Red, :host .RedHome {
+	color: #b02822;
+}
