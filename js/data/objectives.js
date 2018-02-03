@@ -1,8 +1,11 @@
 import {getCurrentMatchData} from "./matches";
 import {sprintf} from "sprintf-js";
-import {i18next} from "../utils/i18n";
-import Worlds from "../data/worlds";
-import objectivesData from "../static-cache/objectives.json";
+import I18N from "../utils/i18n";
+import {getWorlds} from "../data/worlds";
+import objectivesDataEn from "../static-cache/objectives_en.json";
+import objectivesDataDe from "../static-cache/objectives_de.json";
+import objectivesDataFr from "../static-cache/objectives_fr.json";
+import objectivesDataEs from "../static-cache/objectives_es.json";
 
 const MAP_SIZES = {
 	Center: [[8958, 12798], [12030, 15870]],
@@ -12,7 +15,16 @@ const MAP_SIZES = {
 };
 
 function getObjectives() {
-	return Promise.resolve(objectivesData);
+	switch (I18N.getCurrentLanguage()) {
+		case "de":
+			return Promise.resolve(objectivesDataDe);
+		case "fr":
+			return Promise.resolve(objectivesDataFr);
+		case "es":
+			return Promise.resolve(objectivesDataEs);
+		default:
+			return Promise.resolve(objectivesDataEn);
+	}
 }
 
 function getObjectiveName(objective) {
@@ -37,19 +49,19 @@ function getMapForObjective(objective) {
 	});
 }
 function getMapNames() {
-	return new Worlds().getWorlds().then(worlds => {
+	return getWorlds().then(worlds => {
 		let match = getCurrentMatchData();
 		return {
-			Center: i18next.t("gw2:eb"),
-			RedHome: sprintf(i18next.t("gw2:borderlands"), worlds[match.worlds.red].name),
-			BlueHome: sprintf(i18next.t("gw2:borderlands"), worlds[match.worlds.blue].name),
-			GreenHome: sprintf(i18next.t("gw2:borderlands"), worlds[match.worlds.green].name)
+			Center: I18N.t("gw2:eb"),
+			RedHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.red].name),
+			BlueHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.blue].name),
+			GreenHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.green].name)
 		};
 	});
 }
 
 function getWorldNameForColor(color) {
-	return new Worlds().getWorlds().then(worlds => {
+	return getWorlds().then(worlds => {
 		let match = getCurrentMatchData();
 		return worlds[match.worlds[color.toLowerCase()]].name;
 	});

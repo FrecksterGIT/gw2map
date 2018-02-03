@@ -31,7 +31,6 @@
 		"chart.js": "^2.7.1",
 		"deep-diff": "^0.3.8",
 		"dot": "^1.1.2",
-		"i18next": "^10.3.0",
 		"sprintf-js": "^1.1.1",
 		"universal-cookie": "^2.1.2"
 	},
@@ -57,7 +56,10 @@
 		"type": "git",
 		"url": "git+https://github.com/FrecksterGIT/gw2map.git"
 	},
-	"keywords": ["gw2", "wvw"],
+	"keywords": [
+		"gw2",
+		"wvw"
+	],
 	"bugs": {
 		"url": "https://github.com/FrecksterGIT/gw2map/issues"
 	},

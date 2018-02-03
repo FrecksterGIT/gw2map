@@ -1,4 +1,5 @@
 import jsonfile from "jsonfile";
+import Promise from "bluebird";
 import fetch from "isomorphic-fetch";
 import fs from "fs";
 
@@ -15,16 +16,20 @@ function reorderWorldData(data) {
 const MAP_IDS = [38, 1099, 96, 95];
 const RELEVANT_OBJECTIVES = ["Castle", "Keep", "Tower", "Camp", "Ruins"];
 
-fetch("https://api.guildwars2.com/v2/worlds?ids=all").then(result => {
-	return result.json().then(data => {
-		let worlds = reorderWorldData(data);
-		jsonfile.writeFile("./js/static-cache/worlds.json", worlds);
-	});
-});
+const LANGUAGES = ["en", "de", "es", "fr"];
 
-fetch("https://api.guildwars2.com/v2/wvw/objectives?ids=all").then(response => {
-	response.json().then(objs => {
-		let objectives = objs.filter(obj => MAP_IDS.indexOf(obj.map_id) >= 0 && RELEVANT_OBJECTIVES.indexOf(obj.type) >= 0);
-		jsonfile.writeFile("./js/static-cache/objectives.json", objectives);
+LANGUAGES.forEach(language => {
+	fetch("https://api.guildwars2.com/v2/worlds?ids=all&lang=" + language).then(result => {
+		return result.json().then(data => {
+			let worlds = reorderWorldData(data);
+			jsonfile.writeFile("./js/static-cache/worlds_" + language + ".json", worlds);
+		});
+	});
+
+	fetch("https://api.guildwars2.com/v2/wvw/objectives?ids=all&lang=" + language).then(response => {
+		response.json().then(objs => {
+			let objectives = objs.filter(obj => MAP_IDS.indexOf(obj.map_id) >= 0 && RELEVANT_OBJECTIVES.indexOf(obj.type) >= 0);
+			jsonfile.writeFile("./js/static-cache/objectives_" + language + ".json", objectives);
+		});
 	});
 });

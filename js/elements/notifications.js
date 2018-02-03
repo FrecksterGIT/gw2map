@@ -3,7 +3,7 @@ import template from "./templates/notifications.dot";
 import {getGuild} from "../data/guilds";
 import {getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor} from "../data/objectives";
 import {toTime} from "../utils/timetools";
-import {i18next} from "../application";
+import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
 
 export default class Notifications extends TemplateElement {
@@ -28,7 +28,7 @@ export default class Notifications extends TemplateElement {
 					getWorldNameForColor(objective.owner).then(worldName => {
 						// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
 						let message = sprintf(
-							i18next.t("gw2:turnedString"),
+							I18N.t("gw2:turnedString"),
 							objective.id,
 							change.lhs, // old owner color
 							objectiveName,
@@ -50,7 +50,7 @@ export default class Notifications extends TemplateElement {
 		getGuild(change.rhs).then(guild => {
 			getObjectiveName(objective).then(objectiveName => {
 				// objectiveId, objectiveOwnerClass, objectiveName, guildTag, guildName
-				let message = sprintf(i18next.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
+				let message = sprintf(I18N.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
 				this.addNewNotification(message, objective.claimed_at, "claimed");
 			});
 		});

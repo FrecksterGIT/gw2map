@@ -1,19 +1,21 @@
-import worldsData from "../static-cache/worlds.json";
+import worldsDataEn from "../static-cache/worlds_en.json";
+import worldsDataDe from "../static-cache/worlds_de.json";
+import worldsDataFr from "../static-cache/worlds_fr.json";
+import worldsDataEs from "../static-cache/worlds_es.json";
 
-let worlds = null;
-export default class Worlds {
-	constructor() {
-		if (!worlds) {
-			worlds = this;
-		}
+import I18N from "../utils/i18n";
 
-		// to test whether we have singleton or not
-		this.time = new Date();
-
-		return worlds;
-	}
-
-	getWorlds() {
-		return Promise.resolve(worldsData);
+function getWorlds() {
+	switch (I18N.getCurrentLanguage()) {
+		case "de":
+			return Promise.resolve(worldsDataDe);
+		case "fr":
+			return Promise.resolve(worldsDataFr);
+		case "es":
+			return Promise.resolve(worldsDataEs);
+		default:
+			return Promise.resolve(worldsDataEn);
 	}
 }
+
+export {getWorlds};
