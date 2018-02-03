@@ -1,6 +1,6 @@
 {
 	"name": "gw2map",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": "Sven Müller <sven.mueller@breathless-code.de> (http://www.breathless-code.de)",
 	"license": "GPL-3.0",
 	"devDependencies": {
@@ -69,7 +69,10 @@
 		"type": "git",
 		"url": "git+https://github.com/FrecksterGIT/gw2map.git"
 	},
-	"keywords": ["gw2", "wvw"],
+	"keywords": [
+		"gw2",
+		"wvw"
+	],
 	"bugs": {
 		"url": "https://github.com/FrecksterGIT/gw2map/issues"
 	},
