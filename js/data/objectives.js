@@ -1,7 +1,8 @@
-import {getCurrentMatchData} from "./matches";
+import Promise from "bluebird";
 import {sprintf} from "sprintf-js";
+import {getWorlds} from "./worlds";
+import {getCurrentMatchData} from "./matches";
 import I18N from "../utils/i18n";
-import {getWorlds} from "../data/worlds";
 import objectivesDataEn from "../static-cache/objectives_en.json";
 import objectivesDataDe from "../static-cache/objectives_de.json";
 import objectivesDataFr from "../static-cache/objectives_fr.json";
@@ -14,7 +15,7 @@ const MAP_SIZES = {
 	GreenHome: [[5630, 11518], [8702, 14590]]
 };
 
-function getObjectives() {
+const getObjectives = () => {
 	switch (I18N.getCurrentLanguage()) {
 		case "de":
 			return Promise.resolve(objectivesDataDe);
@@ -25,15 +26,15 @@ function getObjectives() {
 		default:
 			return Promise.resolve(objectivesDataEn);
 	}
-}
+};
 
-function getObjectiveName(objective) {
+const getObjectiveName = objective => {
 	return getObjectives().then(objs => {
 		return objs.find(obj => obj.id === objective.id).name;
 	});
-}
+};
 
-function getMapForObjective(objective) {
+const getMapForObjective = objective => {
 	return new Promise(resolve => {
 		let matchData = getCurrentMatchData();
 		let map = false;
@@ -47,8 +48,9 @@ function getMapForObjective(objective) {
 		}
 		resolve(map);
 	});
-}
-function getMapNames() {
+};
+
+const getMapNames = () => {
 	return getWorlds().then(worlds => {
 		let match = getCurrentMatchData();
 		return {
@@ -58,16 +60,16 @@ function getMapNames() {
 			GreenHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.green].name)
 		};
 	});
-}
+};
 
-function getWorldNameForColor(color) {
+const getWorldNameForColor = color => {
 	return getWorlds().then(worlds => {
 		let match = getCurrentMatchData();
 		return worlds[match.worlds[color.toLowerCase()]].name;
 	});
-}
+};
 
-function getObjectivePosition(objective) {
+const getObjectivePosition = objective => {
 	let map = MAP_SIZES[objective.map_type];
 	let mapSize = [[map[1][0] - map[0][0]], map[1][1] - map[0][1]];
 	let point = objective.coord;
@@ -76,6 +78,6 @@ function getObjectivePosition(objective) {
 		return [[coord[0] / mapSize[0] * 100], [coord[1] / mapSize[1] * 100]];
 	}
 	return [0, 0];
-}
+};
 
 export {getObjectives, getObjectivePosition, getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor};

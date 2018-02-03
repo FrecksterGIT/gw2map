@@ -1,10 +1,10 @@
-import diff from "deep-diff";
-import {handleChange} from "../utils/changes";
 import Promise from "bluebird";
-import fetch from "isomorphic-fetch";
 import Cookies from "universal-cookie";
+import diff from "deep-diff";
+import fetch from "isomorphic-fetch";
+import {handleChange} from "../utils/changes";
 
-function getMatchId() {
+const getMatchId = () => {
 	const cookies = new Cookies();
 	let matchId = cookies.get("gw2-world");
 	if (!matchId) {
@@ -16,25 +16,25 @@ function getMatchId() {
 	}
 	cookies.set("gw2-world", matchId);
 	return matchId;
-}
+};
 
-function getMatch(id) {
+const getMatch = (id) => {
 	return fetch("https://api.guildwars2.com/v2/wvw/matches/" + id).then(response => {
 		return response.json();
 	});
-}
+};
 
-function getMatches() {
+const getMatches = () => {
 	return fetch("https://api.guildwars2.com/v2/wvw/matches").then(response => {
 		return response.json().then(matchIds => {
 			return Promise.map(matchIds, currentItem => getMatch(currentItem));
 		});
 	});
-}
+};
 
 let currentMatchData = {};
 
-function updateMatchData(match) {
+const updateMatchData = (match) => {
 	getMatch(match).then(newMatchData => {
 		let diffs = diff(currentMatchData, newMatchData);
 		if (diffs) {
@@ -44,10 +44,10 @@ function updateMatchData(match) {
 		}
 		currentMatchData = newMatchData;
 	});
-}
+};
 
-function getCurrentMatchData() {
+const getCurrentMatchData = () => {
 	return currentMatchData;
-}
+};
 
 export {getMatchId, getMatches, getMatch, updateMatchData, getCurrentMatchData};

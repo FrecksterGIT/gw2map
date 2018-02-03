@@ -6,17 +6,6 @@ import Chart from "chart.js";
 import Promise from "bluebird";
 
 export default class ScorePanel extends TemplateElement {
-	connectedCallback() {
-		super.connectedCallback();
-	}
-
-	templateRendered(data) {
-		this.initEvents();
-		let matchId = getMatchId();
-		let match = data.matches.find(m => m.id === matchId);
-		this.redraw({data: {changedData: match}});
-	}
-
 	getTemplate() {
 		return template;
 	}
@@ -33,7 +22,10 @@ export default class ScorePanel extends TemplateElement {
 		});
 	}
 
-	initEvents() {
+	templateRendered(data) {
+		let matchId = getMatchId();
+		let match = data.matches.find(m => m.id === matchId);
+		this.redraw({data: {changedData: match}});
 		let changeEventHandler = this.redraw.bind(this);
 		window.addEventListener("gw2scoreboard", changeEventHandler);
 	}
@@ -44,7 +36,6 @@ export default class ScorePanel extends TemplateElement {
 		filledMatch.income = this.getIncome(match);
 		filledMatch.victory_points_diff = this.getVictoryPointDiffs(match);
 		filledMatch = this.setWorldNamesForMatch(worlds, match);
-
 		return filledMatch;
 	}
 
@@ -166,6 +157,7 @@ export default class ScorePanel extends TemplateElement {
 		let rotate = income.Red / (income.Blue + income.Green + income.Red) / 2 * 360;
 		table.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
 	}
+
 }
 
 window.customElements.define("gw2-scorepanel", ScorePanel);

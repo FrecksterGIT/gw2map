@@ -1,9 +1,9 @@
-import * as objectives from "../data/objectives";
-import TemplateElement from './template-element';
-import template from './templates/gw2-borderland.dot';
+import Promise from "bluebird";
+import TemplateElement from "./template-element";
+import template from "./templates/gw2-borderland.dot";
+import {getObjectives, getObjectivePosition} from "../data/objectives";
 
 export default class Borderland extends TemplateElement {
-
 	getTemplate() {
 		return template;
 	}
@@ -11,10 +11,10 @@ export default class Borderland extends TemplateElement {
 		let that = this;
 		return new Promise(function(resolve) {
 			let elements = [];
-			return objectives.getObjectives().then(_objs => {
+			return getObjectives().then(_objs => {
 				_objs.map(element => {
 					if (element.map_type === that.id) {
-						let position = objectives.getObjectivePosition(element);
+						let position = getObjectivePosition(element);
 						element.x = position[0];
 						element.y = position[1];
 						elements.push(element);
@@ -26,4 +26,4 @@ export default class Borderland extends TemplateElement {
 	}
 }
 
-window.customElements.define('gw2-borderland', Borderland);
+window.customElements.define("gw2-borderland", Borderland);

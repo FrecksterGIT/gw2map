@@ -1,4 +1,4 @@
-function sendChangedEventToNotifications(change, newObjectiveData) {
+const sendChangedEventToNotifications = (change, newObjectiveData) => {
 	let changeEvent = new MessageEvent("gw2notification", {
 		bubbles: false,
 		composed: false,
@@ -9,9 +9,9 @@ function sendChangedEventToNotifications(change, newObjectiveData) {
 		}
 	});
 	window.dispatchEvent(changeEvent);
-}
+};
 
-function sendChangeEventToObjective(change, newObjectiveData) {
+const sendChangeEventToObjective = (change, newObjectiveData) => {
 	let changeEvent = new MessageEvent("gw2objective." + newObjectiveData.id, {
 		bubbles: false,
 		composed: false,
@@ -23,9 +23,9 @@ function sendChangeEventToObjective(change, newObjectiveData) {
 	});
 	window.dispatchEvent(changeEvent);
 	sendChangedEventToNotifications(change, newObjectiveData);
-}
+};
 
-function sendChangeEventToScoreboard(change, newData) {
+const sendChangeEventToScoreboard = (change, newData) => {
 	let changeEvent = new MessageEvent("gw2scoreboard", {
 		bubbles: false,
 		composed: false,
@@ -35,9 +35,9 @@ function sendChangeEventToScoreboard(change, newData) {
 		}
 	});
 	window.dispatchEvent(changeEvent);
-}
+};
 
-function handleMapChange(change, newData) {
+const handleMapChange = (change, newData) => {
 	if (change.path.length === 1) {
 		change.rhs.forEach(map => {
 			map.objectives.forEach(newObjectiveData => {
@@ -56,13 +56,13 @@ function handleMapChange(change, newData) {
 			return;
 		}
 	}
-}
+};
 
-function handleScoreChange(change, newData) {
+const handleScoreChange = (change, newData) => {
 	sendChangeEventToScoreboard(change, newData);
-}
+};
 
-function handleChange(change, newData) {
+const handleChange = (change, newData) => {
 	switch (change.path[0]) {
 		case "maps": {
 			handleMapChange(change, newData);
@@ -76,6 +76,6 @@ function handleChange(change, newData) {
 			// console.warn("unhandled change", change);
 		}
 	}
-}
+};
 
 export {handleChange};

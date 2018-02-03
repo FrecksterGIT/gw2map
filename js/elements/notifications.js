@@ -7,17 +7,16 @@ import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
 
 export default class Notifications extends TemplateElement {
-	connectedCallback() {
-		super.connectedCallback();
-		this.initEvents();
-	}
+
 	getTemplate() {
 		return template;
 	}
-	initEvents() {
+
+	templateRendered() {
 		let newNotificationHandler = this.handleNewNotification.bind(this);
 		window.addEventListener("gw2notification", newNotificationHandler);
 	}
+
 	addNewOwnerNotification(change, objective) {
 		if (objective.type === "Ruins") {
 			return;
@@ -43,6 +42,7 @@ export default class Notifications extends TemplateElement {
 			});
 		});
 	}
+
 	addNewClaimNotification(change, objective) {
 		if (!change.rhs) {
 			return;
@@ -55,6 +55,7 @@ export default class Notifications extends TemplateElement {
 			});
 		});
 	}
+
 	addNewNotification(notification, date, type) {
 		var notificationTime = toTime(date);
 		let entry = document.createElement("div");
@@ -64,6 +65,7 @@ export default class Notifications extends TemplateElement {
 		let notifications = this.shadowRoot.querySelector(".notifications");
 		notifications.insertBefore(entry.cloneNode(true), notifications.firstChild);
 	}
+
 	handleNewNotification(changedDataEvent) {
 		if (changedDataEvent.data.change.path.length === 5) {
 			switch (changedDataEvent.data.change.path[4]) {
@@ -81,6 +83,7 @@ export default class Notifications extends TemplateElement {
 			}
 		}
 	}
+
 }
 
 window.customElements.define("gw2-notifications", Notifications);
