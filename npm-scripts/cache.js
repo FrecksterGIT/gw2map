@@ -1,5 +1,4 @@
 import jsonfile from "jsonfile";
-import Promise from "bluebird";
 import fetch from "isomorphic-fetch";
 import fs from "fs";
 
