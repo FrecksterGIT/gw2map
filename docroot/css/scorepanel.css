@@ -1,4 +1,6 @@
 :host table {
+	border-collapse: collapse;
+	border-spacing: 0;
 	color: #707070;
 	display: none;
 	font: 11px/13px "Open Sans", sans-serif, arial;
@@ -11,6 +13,7 @@
 
 :host .name {
 	position: relative;
+	text-align: left;
 }
 
 :host .green_world .name {
@@ -31,10 +34,10 @@
 	color: #707070;
 	display: none;
 	left: 90px;
+	min-width: 100px;
 	padding: 2px 5px;
 	position: absolute;
 	top: 0;
-	width: 100px;
 	z-index: 1;
 }
 
@@ -66,4 +69,46 @@
 
 :host thead {
 	text-align: center;
+}
+
+:host tbody {
+	text-align: right;
+}
+
+:host tbody td {
+	padding: 0 10px 3px 0;
+}
+
+:host .worlds {
+	text-align: left;
+	width: 125px;
+}
+
+:host thead .victory_points {
+	text-align: left;
+}
+
+:host .income,
+:host tbody .current_score,
+:host tbody .victory_points {
+	width: 47px;
+}
+
+:host tbody .victory_points {
+	padding-left: 64px;
+}
+
+:host .diff {
+	width: 16px;
+}
+
+:host .chart_container {
+	position: relative;
+	width: 64px;
+}
+
+:host .chart {
+	left: 0;
+	position: absolute;
+	top: 5px;
 }

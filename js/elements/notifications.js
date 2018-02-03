@@ -37,7 +37,7 @@ export default class Notifications extends TemplateElement {
 							objective.owner, // owner class
 							worldName // owner name
 						);
-						this.addNewNotification(message, objective.last_flipped);
+						this.addNewNotification(message, objective.last_flipped, "flipped");
 					});
 				});
 			});
@@ -51,13 +51,15 @@ export default class Notifications extends TemplateElement {
 			getObjectiveName(objective).then(objectiveName => {
 				// objectiveId, objectiveOwnerClass, objectiveName, guildTag, guildName
 				let message = sprintf(i18next.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
-				this.addNewNotification(message, objective.claimed_at);
+				this.addNewNotification(message, objective.claimed_at, "claimed");
 			});
 		});
 	}
-	addNewNotification(notification, date) {
+	addNewNotification(notification, date, type) {
 		var notificationTime = toTime(date);
 		let entry = document.createElement("div");
+		entry.classList.add("notification");
+		entry.classList.add(type);
 		entry.innerHTML = notificationTime + " " + notification;
 		let notifications = this.shadowRoot.querySelector(".notifications");
 		notifications.insertBefore(entry.cloneNode(true), notifications.firstChild);

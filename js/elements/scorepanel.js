@@ -153,7 +153,9 @@ export default class ScorePanel extends TemplateElement {
 				data: this.chartData,
 				options: {
 					tooltips: {enabled: false},
-					responsive: true
+					legend: {
+						display: false
+					}
 				}
 			});
 		}

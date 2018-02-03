@@ -4,8 +4,9 @@
 			<thead>
 			<tr class="header">
 				<td class="worlds">World</td>
-				<td class="income" colspan="2">Income</td>
+				<td class="income">Income</td>
 				<td class="current_score">Score</td>
+				<td rowspan="4" class="chart_container"><canvas class="chart" width="64" height="64" style="float: left; width: 64px; height: 64px;"></canvas></td>
 				<td class="victory_points" colspan="3">Victory Points</td>
 				<td></td>
 			</tr>
@@ -14,9 +15,8 @@
 			<tr class="green_world">
 				<td class="name">{{=match.world_names.green}}<span>{{=match.all_world_names.green}}</span></td></td>
 				<td class="income">{{=match.income.Green}}</td>
-				<td rowspan="3"><canvas class="chart" width="64" height="64" style="width: 64px; height: 64px;"></canvas></td>
 				<td class="current_score">{{=match.currentScores.green}}</td>
-				<td class="victory_points">{{=match.victory_points.green}}</td>
+				<td class="victory_points" colspan="2">{{=match.victory_points.green}}</td>
 				<td class="diff">{{=match.victory_points_diff.green}}</td>
 				<td class="bar"><div><div style="width: 100%;"></div></div></td>
 			</tr>
@@ -24,7 +24,7 @@
 				<td class="name">{{=match.world_names.blue}}<span>{{=match.all_world_names.blue}}</span></td>
 				<td class="income">{{=match.income.Blue}}</td>
 				<td class="current_score">{{=match.currentScores.blue}}</td>
-				<td class="victory_points">{{=match.victory_points.blue}}</td>
+				<td class="victory_points" colspan="2">{{=match.victory_points.blue}}</td>
 				<td class="diff">{{=match.victory_points_diff.blue}}</td>
 				<td class="bar"><div><div style="width: 100%;"></div></div></td>
 			</tr>
@@ -32,7 +32,7 @@
 				<td class="name">{{=match.world_names.red}}<span>{{=match.all_world_names.red}}</span></td></td>
 				<td class="income">{{=match.income.Red}}</td>
 				<td class="current_score">{{=match.currentScores.red}}</td>
-				<td class="victory_points">{{=match.victory_points.red}}</td>
+				<td class="victory_points" colspan="2">{{=match.victory_points.red}}</td>
 				<td class="diff">{{=match.victory_points_diff.red}}</td>
 				<td class="bar"><div><div style="width: 100%;"></div></div></td>
 			</tr>

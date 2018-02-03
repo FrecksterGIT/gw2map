@@ -11,7 +11,7 @@ h1 {
 section {
 	display: flex;
 	margin: 0 auto;
-	max-width: 1200px;
+	max-width: 1140px;
 	min-width: 900px;
 	width: 90%;
 }
