@@ -7,7 +7,6 @@ import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
 
 export default class Notifications extends TemplateElement {
-
 	getTemplate() {
 		return template;
 	}
@@ -18,29 +17,33 @@ export default class Notifications extends TemplateElement {
 	}
 
 	addNewOwnerNotification(change, objective) {
-		if (objective.type === "Ruins") {
+		if (objective.type === "Ruins" || objective.type === "Mercenary") {
 			return;
 		}
-		getObjectiveName(objective).then(objectiveName => {
-			getMapForObjective(objective).then(map => {
-				getMapNames().then(mapNames => {
-					getWorldNameForColor(objective.owner).then(worldName => {
-						// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
-						let message = sprintf(
-							I18N.t("gw2:turnedString"),
-							objective.id,
-							change.lhs, // old owner color
-							objectiveName,
-							map.type, // color for map
-							mapNames[map.type], // map name
-							objective.owner, // owner class
-							worldName // owner name
-						);
-						this.addNewNotification(message, objective.last_flipped, "flipped");
+		getObjectiveName(objective)
+			.then(objectiveName => {
+				return getMapForObjective(objective).then(map => {
+					return getMapNames().then(mapNames => {
+						return getWorldNameForColor(objective.owner).then(worldName => {
+							// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
+							let message = sprintf(
+								I18N.t("gw2:turnedString"),
+								objective.id,
+								change.lhs, // old owner color
+								objectiveName,
+								map.type, // color for map
+								mapNames[map.type], // map name
+								objective.owner, // owner class
+								worldName // owner name
+							);
+							this.addNewNotification(message, objective.last_flipped, "flipped");
+						});
 					});
 				});
+			})
+			.catch(err => {
+				console.log(err);
 			});
-		});
 	}
 
 	addNewClaimNotification(change, objective) {
@@ -48,11 +51,15 @@ export default class Notifications extends TemplateElement {
 			return;
 		}
 		getGuild(change.rhs).then(guild => {
-			getObjectiveName(objective).then(objectiveName => {
-				// objectiveId, objectiveOwnerClass, objectiveName, guildTag, guildName
-				let message = sprintf(I18N.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
-				this.addNewNotification(message, objective.claimed_at, "claimed");
-			});
+			getObjectiveName(objective)
+				.then(objectiveName => {
+					// objectiveId, objectiveOwnerClass, objectiveName, guildTag, guildName
+					let message = sprintf(I18N.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
+					this.addNewNotification(message, objective.claimed_at, "claimed");
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		});
 	}
 
@@ -83,7 +90,6 @@ export default class Notifications extends TemplateElement {
 			}
 		}
 	}
-
 }
 
 window.customElements.define("gw2-notifications", Notifications);
