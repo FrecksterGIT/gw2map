@@ -61,3 +61,4 @@ typings/
 /dist
 /docroot/js/application.js
 /docroot/js/application.js.map
+/js/static-cache

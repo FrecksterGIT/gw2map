@@ -1,7 +1,7 @@
 function sendChangedEventToNotifications(change, newObjectiveData) {
 	let changeEvent = new MessageEvent("gw2notification", {
-		bubbles: true,
-		composed: true,
+		bubbles: false,
+		composed: false,
 		data: {
 			type: change.kind,
 			change: change,
@@ -13,8 +13,8 @@ function sendChangedEventToNotifications(change, newObjectiveData) {
 
 function sendChangeEventToObjective(change, newObjectiveData) {
 	let changeEvent = new MessageEvent("gw2objective." + newObjectiveData.id, {
-		bubbles: true,
-		composed: true,
+		bubbles: false,
+		composed: false,
 		data: {
 			type: change.kind,
 			change: change,
@@ -27,8 +27,8 @@ function sendChangeEventToObjective(change, newObjectiveData) {
 
 function sendChangeEventToScoreboard(change, newData) {
 	let changeEvent = new MessageEvent("gw2scoreboard", {
-		bubbles: true,
-		composed: true,
+		bubbles: false,
+		composed: false,
 		data: {
 			type: change.kind,
 			changedData: newData

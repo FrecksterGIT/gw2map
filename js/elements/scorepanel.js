@@ -1,12 +1,20 @@
 import TemplateElement from "./template-element";
 import template from "./templates/scorepanel.dot";
-import {getMatches} from "../data/matches";
+import {getMatches, getMatchId} from "../data/matches";
 import Worlds from "../data/worlds";
 import Chart from "chart.js";
+import Promise from "bluebird";
+
 export default class ScorePanel extends TemplateElement {
 	connectedCallback() {
 		super.connectedCallback();
+	}
+
+	templateRendered(data) {
 		this.initEvents();
+		let matchId = getMatchId();
+		let match = data.matches.find(m => m.id === matchId);
+		this.redraw({data: {changedData: match}});
 	}
 
 	getTemplate() {
@@ -14,15 +22,11 @@ export default class ScorePanel extends TemplateElement {
 	}
 
 	getTemplateData() {
-		let matches = [];
 		return new Promise(resolve => {
 			new Worlds().getWorlds().then(worlds => {
 				getMatches().then(result => {
-					result.forEach(match => {
-						matches.push(this.fillMatchData(worlds, match));
-					});
 					resolve({
-						matches: matches
+						matches: result.map(match => this.fillMatchData(worlds, match))
 					});
 				});
 			});
@@ -80,7 +84,6 @@ export default class ScorePanel extends TemplateElement {
 			let data = this.fillMatchData(worlds, changedDataEvent.data.changedData);
 			let table = this.shadowRoot.querySelector('table[data-match-id="' + data.id + '"]');
 			this.fillTable(table, data);
-			this.drawChart(data);
 		});
 	}
 
@@ -99,6 +102,7 @@ export default class ScorePanel extends TemplateElement {
 			table.querySelector(".blue_world .diff").innerHTML = data.victory_points_diff.blue;
 			table.querySelector(".red_world .victory_points").innerHTML = data.victory_points.red;
 			table.querySelector(".red_world .diff").innerHTML = data.victory_points_diff.red;
+			this.drawChart(data);
 		}
 	}
 

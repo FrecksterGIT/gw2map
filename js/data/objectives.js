@@ -2,6 +2,7 @@ import {getCurrentMatchData} from "./matches";
 import {sprintf} from "sprintf-js";
 import {i18next} from "../utils/i18n";
 import Worlds from "../data/worlds";
+import objectivesData from "../static-cache/objectives.json";
 
 const MAP_SIZES = {
 	Center: [[8958, 12798], [12030, 15870]],
@@ -9,24 +10,9 @@ const MAP_SIZES = {
 	BlueHome: [[12798, 10878], [15870, 13950]],
 	GreenHome: [[5630, 11518], [8702, 14590]]
 };
-const MAP_IDS = [38, 1099, 96, 95];
-
-const RELEVANT_OBJECTIVES = ["Castle", "Keep", "Tower", "Camp", "Ruins"];
-
-let objectives = [];
 
 function getObjectives() {
-	if (objectives.length > 0) {
-		return Promise.resolve(objectives);
-	}
-	else {
-		return fetch("https://api.guildwars2.com/v2/wvw/objectives?ids=all").then(response => {
-			return response.json().then(objs => {
-				objectives = objs.filter(obj => MAP_IDS.indexOf(obj.map_id) >= 0 && RELEVANT_OBJECTIVES.indexOf(obj.type) >= 0);
-				return objectives;
-			});
-		});
-	}
+	return Promise.resolve(objectivesData);
 }
 
 function getObjectiveName(objective) {

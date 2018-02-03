@@ -1,6 +1,7 @@
+import worldsData from "../static-cache/worlds.json";
+
 let worlds = null;
 export default class Worlds {
-
 	constructor() {
 		if (!worlds) {
 			worlds = this;
@@ -13,22 +14,6 @@ export default class Worlds {
 	}
 
 	getWorlds() {
-		if (this.worlds) {
-			return Promise.resolve(this.worlds);
-		}
-		return fetch("https://api.guildwars2.com/v2/worlds?ids=all").then(result => {
-			return result.json().then(data => {
-				this.worlds = this.reorderWorldData(data);
-				return this.worlds;
-			});
-		});
-	}
-
-	reorderWorldData(data) {
-		let sorted = {};
-		data.forEach(currentItem => {
-			sorted[currentItem.id] = currentItem;
-		});
-		return sorted;
+		return Promise.resolve(worldsData);
 	}
 }

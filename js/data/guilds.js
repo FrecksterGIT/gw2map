@@ -1,6 +1,8 @@
+import fetch from "isomorphic-fetch";
+
 const guilds = {};
 
-const getGuild = (guildId) => {
+const getGuild = guildId => {
 	if (guilds[guildId]) {
 		return Promise.resolve(guilds[guildId]);
 	}
