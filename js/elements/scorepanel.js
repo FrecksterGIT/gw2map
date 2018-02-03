@@ -102,7 +102,7 @@ export default class ScorePanel extends TemplateElement {
 			table.querySelector(".blue_world .diff").innerHTML = data.victory_points_diff.blue;
 			table.querySelector(".red_world .victory_points").innerHTML = data.victory_points.red;
 			table.querySelector(".red_world .diff").innerHTML = data.victory_points_diff.red;
-			this.drawChart(data);
+			this.drawChart(table, data);
 		}
 	}
 
@@ -135,7 +135,7 @@ export default class ScorePanel extends TemplateElement {
 		return income;
 	}
 
-	drawChart(match) {
+	drawChart(table, match) {
 		let income = this.getIncome(match);
 		this.chartData = {
 			datasets: [
@@ -147,13 +147,13 @@ export default class ScorePanel extends TemplateElement {
 			]
 		};
 		if (!this.chart) {
-			let ctx = this.shadowRoot.querySelector(".chart").getContext("2d");
+			let ctx = table.querySelector(".chart").getContext("2d");
 			this.chart = new Chart(ctx, {
 				type: "pie",
 				data: this.chartData,
 				options: {
 					tooltips: {enabled: false},
-					responsive: false
+					responsive: true
 				}
 			});
 		}
@@ -162,7 +162,7 @@ export default class ScorePanel extends TemplateElement {
 			this.chart.update();
 		}
 		let rotate = income.Red / (income.Blue + income.Green + income.Red) / 2 * 360;
-		this.shadowRoot.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
+		table.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
 	}
 }
 
