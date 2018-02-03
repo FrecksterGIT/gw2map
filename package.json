@@ -48,7 +48,7 @@
 	"description": "Small Webapplication for World vs World in Guild Wars 2.",
 	"scripts": {
 		"prebuild": "npm-run-all clean cache vendor:*",
-		"build": "npm webpack",
+		"build": "npm-run-all webpack",
 		"postbuild": "cpx ./docroot/** ./dist",
 		"clean": "rimraf ./dist ./docroot/js/**",
 		"prestart": "cross-env NODE_ENV=develop npm-run-all cache vendor:*",
