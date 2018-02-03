@@ -57,8 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 
-/build
+/.tmp
 /dist
-/docroot/js/application.js
-/docroot/js/application.js.map
+/docroot/js
 /js/static-cache

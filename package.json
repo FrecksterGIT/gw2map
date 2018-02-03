@@ -47,20 +47,21 @@
 	},
 	"description": "Small Webapplication for World vs World in Guild Wars 2.",
 	"scripts": {
-		"build": "npm-run-all clean-dist build-cache webpack copy",
-		"build-cache": "npm-run-all build-cache:prepare build-cache:run build-cache:cleanup",
-		"build-cache:prepare": "rimraf ./js/static-cache && babel ./npm-scripts/ --out-dir ./.tmp --copy-files --quiet",
-		"build-cache:run": "node ./.tmp/cache.js",
-		"build-cache:cleanup": "rimraf ./.tmp",
-		"clean-dist": "rimraf ./dist",
-		"copy": "npm-run-all copy:*",
-		"copy:docroot": "cpx ./docroot/** ./dist",
-		"develop": "cross-env NODE_ENV=development npm-run-all -p webpack-watch run-server",
-		"eslint": "eslint js/**/*.js",
-		"karma": "cross-env NODE_ENV=test karma start",
+		"prebuild": "npm-run-all clean cache vendor:*",
+		"build": "npm webpack",
+		"postbuild": "cpx ./docroot/** ./dist",
+		"clean": "rimraf ./dist ./docroot/js/**",
+		"prestart": "cross-env NODE_ENV=develop npm-run-all cache vendor:*",
+		"start": "cross-env NODE_ENV=development npm-run-all -p webpack-watch run-server",
+		"test": "npm-run-all test:*",
+		"test:stylelint": "stylelint docroot/css/*.css",
+		"test:eslint": "eslint js/**/*.js",
+		"test:karma": "cross-env NODE_ENV=test karma start",
+		"precache": "rimraf ./js/static-cache && babel ./npm-scripts/ --out-dir ./.tmp --copy-files --quiet",
+		"cache": "node ./.tmp/cache.js",
+		"postcache": "rimraf ./.tmp",
+		"vendor:chartjs": "cpx ./node_modules/chart.js/dist/Chart.min.js ./docroot/js/vendor",
 		"run-server": "simple-server docroot 8000",
-		"stylelint": "stylelint docroot/css/*.css",
-		"test": "npm-run-all stylelint eslint karma",
 		"webpack": "webpack --config ./.config/webpack.config.js",
 		"webpack-watch": "webpack --config ./.config/webpack.config.js --watch"
 	},
@@ -68,10 +69,7 @@
 		"type": "git",
 		"url": "git+https://github.com/FrecksterGIT/gw2map.git"
 	},
-	"keywords": [
-		"gw2",
-		"wvw"
-	],
+	"keywords": ["gw2", "wvw"],
 	"bugs": {
 		"url": "https://github.com/FrecksterGIT/gw2map/issues"
 	},

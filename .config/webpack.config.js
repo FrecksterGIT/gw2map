@@ -1,6 +1,7 @@
 /* eslint-env node */
 
 const path = require("path");
+const webpack = require("webpack");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const config = {
@@ -9,7 +10,7 @@ const config = {
 		application: "./application"
 	},
 	output: {
-		path: path.resolve(__dirname, "../docroot/js"),
+		path: path.resolve(__dirname, "../docroot/js/build"),
 		filename: "[name].js",
 		umdNamedDefine: true,
 		libraryTarget: "umd",
@@ -18,6 +19,11 @@ const config = {
 		sourceMapFilename: "[name].js.map"
 	},
 	devtool: "source-map",
+	externals: [
+		{
+			"chart.js": "Chart"
+		}
+	],
 	resolve: {
 		modules: [path.resolve(__dirname, "js"), "node_modules"]
 	},
@@ -37,7 +43,12 @@ const config = {
 			}
 		]
 	},
-	plugins: [],
+	plugins: [
+		new webpack.ProvidePlugin({
+			Chart: "chart.js",
+			"window.Chart": "chart.js"
+		})
+	],
 	watchOptions: {
 		aggregateTimeout: 300,
 		poll: 1000
