@@ -2,7 +2,7 @@ import Promise from "bluebird";
 import Cookies from "universal-cookie";
 import diff from "deep-diff";
 import fetch from "isomorphic-fetch";
-import {handleChange} from "../utils/changes";
+import changes from "../utils/changes";
 
 const getMatchId = () => {
 	const cookies = new Cookies();
@@ -18,7 +18,7 @@ const getMatchId = () => {
 	return matchId;
 };
 
-const getMatch = (id) => {
+const getMatch = id => {
 	return fetch("https://api.guildwars2.com/v2/wvw/matches/" + id).then(response => {
 		return response.json();
 	});
@@ -34,12 +34,12 @@ const getMatches = () => {
 
 let currentMatchData = {};
 
-const updateMatchData = (match) => {
+const updateMatchData = match => {
 	getMatch(match).then(newMatchData => {
 		let diffs = diff(currentMatchData, newMatchData);
 		if (diffs) {
 			diffs.forEach(change => {
-				handleChange(change, newMatchData);
+				changes.handleChange(change, newMatchData);
 			});
 		}
 		currentMatchData = newMatchData;

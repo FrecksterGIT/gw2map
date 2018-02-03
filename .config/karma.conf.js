@@ -21,9 +21,25 @@ module.exports = function(config) {
 			},
 			resolve: {
 				modules: [".", "node_modules"]
+			},
+			module: {
+				loaders: [
+					{
+						test: /\.js$/,
+						exclude: /node_modules/,
+						use: ["babel-loader", "eslint-loader"]
+					},
+					{
+						test: /\.dot$/,
+						loader: "dotjs-loader",
+						options: {
+							varname: "context"
+						}
+					}
+				]
 			}
 		},
-		frameworks: ["jasmine"],
+		frameworks: ["mocha", "chai"],
 		reporters: ["mocha"],
 		mochaReporter: {
 			colors: true,
@@ -33,7 +49,6 @@ module.exports = function(config) {
 				warning: "!",
 				error: "x"
 			}
-		},
-		plugins: ["karma-webpack", "karma-chrome-launcher", "karma-mocha-reporter", "karma-jasmine"]
+		}
 	});
 };

@@ -2,7 +2,7 @@ import TemplateElement from "./template-element";
 import template from "./templates/notifications.dot";
 import {getGuild} from "../data/guilds";
 import {getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor} from "../data/objectives";
-import {toTime} from "../utils/timetools";
+import timetools from "../utils/timetools";
 import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
 
@@ -64,7 +64,7 @@ export default class Notifications extends TemplateElement {
 	}
 
 	addNewNotification(notification, date, type) {
-		var notificationTime = toTime(date);
+		var notificationTime = timetools.toTime(date);
 		let entry = document.createElement("div");
 		entry.classList.add("notification");
 		entry.classList.add(type);

@@ -2,7 +2,7 @@ import Promise from "bluebird";
 import TemplateElement from "./template-element";
 import template from "./templates/gw2-objective.dot";
 import {getGuild} from "../data/guilds";
-import {diffTime, COUNTDOWN_TIME, getCountdown, getPassedTime} from "../utils/timetools";
+import timetools from "../utils/timetools";
 
 export default class GW2Objective extends TemplateElement {
 	getTemplate() {
@@ -43,19 +43,19 @@ export default class GW2Objective extends TemplateElement {
 	}
 	updateTimeInfos() {
 		if (this.objectiveData) {
-			let timeSinceFlipped = diffTime(this.objectiveData.last_flipped);
-			if (timeSinceFlipped < COUNTDOWN_TIME) {
-				this.shadowRoot.querySelector(".turnedtext").innerHTML = getCountdown(this.objectiveData.last_flipped);
+			let timeSinceFlipped = timetools.diffTime(this.objectiveData.last_flipped);
+			if (timeSinceFlipped < timetools.COUNTDOWN_TIME) {
+				this.shadowRoot.querySelector(".turnedtext").innerHTML = timetools.getCountdown(this.objectiveData.last_flipped);
 				this.shadowRoot.querySelector(".objective").classList.add("turned");
 				this.initTimeUpdates();
 			}
 			else {
 				this.shadowRoot.querySelector(".objective").classList.remove("turned");
 			}
-			this.shadowRoot.querySelector(".timer").innerHTML = getPassedTime(this.objectiveData.last_flipped);
+			this.shadowRoot.querySelector(".timer").innerHTML = timetools.getPassedTime(this.objectiveData.last_flipped);
 
 			if (this.objectiveData.claimed_at) {
-				this.shadowRoot.querySelector(".claimed").innerHTML = getPassedTime(this.objectiveData.claimed_at);
+				this.shadowRoot.querySelector(".claimed").innerHTML = timetools.getPassedTime(this.objectiveData.claimed_at);
 			}
 		}
 	}
