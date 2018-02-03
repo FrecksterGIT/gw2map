@@ -1,7 +1,11 @@
 const COUNTDOWN_TIME = 300;
 
+const now = () => {
+	return new Date();
+};
+
 const diffTime = timeEndString => {
-	let timeStart = new Date();
+	let timeStart = now();
 	let timeEnd = Date.parse(timeEndString) / 1000;
 	return Math.floor((timeStart - new Date(timeEnd * 1000)) / 1000);
 };

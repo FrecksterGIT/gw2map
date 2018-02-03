@@ -4,12 +4,12 @@ const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const config = {
-	context: path.resolve(__dirname, "js"),
+	context: path.resolve(__dirname, "../js"),
 	entry: {
-		application: "application"
+		application: "./application"
 	},
 	output: {
-		path: path.resolve(__dirname, "./docroot/js"),
+		path: path.resolve(__dirname, "../docroot/js"),
 		filename: "[name].js",
 		umdNamedDefine: true,
 		libraryTarget: "umd",

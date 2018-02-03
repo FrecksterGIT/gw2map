@@ -63,7 +63,7 @@ export default class I18N {
 	}
 
 	translate(key) {
-		return this.active[key];
+		return this.active[key] || key;
 	}
 
 }
