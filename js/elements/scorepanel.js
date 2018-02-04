@@ -1,9 +1,8 @@
 import TemplateElement from "./template-element";
 import template from "./templates/scorepanel.dot";
-import {getMatches, getMatchId} from "../data/matches";
+import {getMatchId, getMatch} from "../data/matches";
 import {getWorlds} from "../data/worlds";
 import Chart from "chart.js";
-import Promise from "bluebird";
 
 export default class ScorePanel extends TemplateElement {
 	getTemplate() {
@@ -11,21 +10,15 @@ export default class ScorePanel extends TemplateElement {
 	}
 
 	getTemplateData() {
-		return new Promise(resolve => {
-			getWorlds().then(worlds => {
-				getMatches().then(result => {
-					resolve({
-						matches: result.map(match => this.fillMatchData(worlds, match))
-					});
-				});
+		return getWorlds().then(worlds => {
+			return getMatch(getMatchId()).then(result => {
+				return this.fillMatchData(worlds, result);
 			});
 		});
 	}
 
 	templateRendered(data) {
-		let matchId = getMatchId();
-		let match = data.matches.find(m => m.id === matchId);
-		this.redraw({data: {changedData: match}});
+		this.redraw({data: {changedData: data}});
 		let changeEventHandler = this.redraw.bind(this);
 		window.addEventListener("gw2scoreboard", changeEventHandler);
 	}
@@ -73,7 +66,7 @@ export default class ScorePanel extends TemplateElement {
 	redraw(changedDataEvent) {
 		getWorlds().then(worlds => {
 			let data = this.fillMatchData(worlds, changedDataEvent.data.changedData);
-			let table = this.shadowRoot.querySelector('table[data-match-id="' + data.id + '"]');
+			let table = this.shadowRoot.querySelector('table');
 			this.fillTable(table, data);
 		});
 	}
@@ -157,7 +150,6 @@ export default class ScorePanel extends TemplateElement {
 		let rotate = income.Red / (income.Blue + income.Green + income.Red) / 2 * 360;
 		table.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
 	}
-
 }
 
 window.customElements.define("gw2-scorepanel", ScorePanel);
