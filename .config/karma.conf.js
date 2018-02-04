@@ -39,6 +39,10 @@ module.exports = function(config) {
 				]
 			}
 		},
+		webpackMiddleware: {
+			noInfo: true,
+			stats: "errors-only"
+		},
 		frameworks: ["mocha", "chai"],
 		reporters: ["mocha"],
 		mochaReporter: {
