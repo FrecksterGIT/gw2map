@@ -1,7 +1,6 @@
 import Promise from "bluebird";
 import Cookies from "universal-cookie";
 import diff from "deep-diff";
-import fetch from "isomorphic-fetch";
 import changes from "../utils/changes";
 
 const getMatchId = () => {
