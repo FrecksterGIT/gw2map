@@ -74,19 +74,17 @@ export default class Notifications extends TemplateElement {
 	}
 
 	handleNewNotification(changedDataEvent) {
-		if (changedDataEvent.data.change.path.length === 5) {
-			switch (changedDataEvent.data.change.path[4]) {
-				case "owner": {
-					this.addNewOwnerNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
-					break;
-				}
-				case "claimed_by": {
-					this.addNewClaimNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
-					break;
-				}
-				default: {
-					// do nothing
-				}
+		switch (changedDataEvent.data.change.attr) {
+			case "owner": {
+				this.addNewOwnerNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
+				break;
+			}
+			case "claimed_by": {
+				this.addNewClaimNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
+				break;
+			}
+			default: {
+				// do nothing
 			}
 		}
 	}

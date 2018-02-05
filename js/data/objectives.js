@@ -1,12 +1,12 @@
 import Promise from "bluebird";
 import {sprintf} from "sprintf-js";
 import {getWorlds} from "./worlds";
-import {getCurrentMatchData} from "./matches";
 import I18N from "../utils/i18n";
 import objectivesDataEn from "../static-cache/objectives_en.json";
 import objectivesDataDe from "../static-cache/objectives_de.json";
 import objectivesDataFr from "../static-cache/objectives_fr.json";
 import objectivesDataEs from "../static-cache/objectives_es.json";
+import {getCurrentMatchData} from "./matches";
 
 const MAP_SIZES = {
 	Center: [[8958, 12798], [12030, 15870]],

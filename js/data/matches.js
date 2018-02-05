@@ -1,7 +1,8 @@
 import Promise from "bluebird";
 import Cookies from "universal-cookie";
-import diff from "deep-diff";
+import Map from "can-map";
 import changes from "../utils/changes";
+import fetch from "isomorphic-fetch";
 
 const getMatchId = () => {
 	const cookies = new Cookies();
@@ -33,20 +34,52 @@ const getMatches = () => {
 
 let currentMatchData = {};
 
-const updateMatchData = match => {
-	getMatch(match).then(newMatchData => {
-		let diffs = diff(currentMatchData, newMatchData);
-		if (diffs) {
-			diffs.forEach(change => {
-				changes.handleChange(change, newMatchData);
-			});
-		}
-		currentMatchData = newMatchData;
-	});
-};
-
 const getCurrentMatchData = () => {
 	return currentMatchData;
 };
 
-export {getMatchId, getMatches, getMatch, updateMatchData, getCurrentMatchData};
+const initMatchUpdates = () => {
+	const matchId = getMatchId();
+	const objectives = {};
+	getMatch(matchId).then(match => {
+		currentMatchData = match;
+		const matchObserver = new Map(match);
+		matchObserver.bind("change", function(ev, attr, how, newVal, oldVal) {
+			const change = {
+				attr: attr,
+				lhs: oldVal,
+				rhs: newVal
+			};
+			changes.handleScoreChange(this, change);
+		});
+
+		match.maps.forEach(map => {
+			map.objectives.forEach(obj => {
+				const observer = new Map(obj);
+				observer.bind("change", function(ev, attr, how, newVal, oldVal) {
+					const change = {
+						attr: attr,
+						lhs: oldVal,
+						rhs: newVal
+					};
+					changes.handleMapChange(this, change);
+				});
+				objectives[obj.id] = observer;
+				changes.handleMapChange(obj, {});
+			});
+		});
+
+		setInterval(function() {
+			getMatch(matchId).then(updatedMatch => {
+				matchObserver.attr(updatedMatch);
+				match.maps.forEach(map => {
+					map.objectives.forEach(obj => {
+						objectives[obj.id].attr(obj);
+					});
+				});
+			});
+		}, 5000);
+	});
+};
+
+export {getMatchId, getMatches, getMatch, initMatchUpdates, getCurrentMatchData};

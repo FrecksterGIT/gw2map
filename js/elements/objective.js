@@ -118,6 +118,7 @@ export default class GW2Objective extends TemplateElement {
 	}
 
 	redraw(changedDataEvent) {
+		console.log(this.getAttribute("name"), changedDataEvent.data);
 		this.objectiveData = changedDataEvent.data.changedData;
 		this.setOwner();
 		if (!this.isRuins()) {

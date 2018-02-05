@@ -61,3 +61,4 @@ typings/
 /dist
 /docroot/js
 /js/static-cache
+.vscode

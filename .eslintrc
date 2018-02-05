@@ -223,7 +223,7 @@
     ],
     "max-params": [
       "error",
-      4
+      6
     ],
     "max-statements": [
       "error",

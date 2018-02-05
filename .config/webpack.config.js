@@ -7,7 +7,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const config = {
 	context: path.resolve(__dirname, "../js"),
 	entry: {
-		application: "./application"
+		application: "./application",
+		can_application: "./can_application"
 	},
 	output: {
 		path: path.resolve(__dirname, "../docroot/js/build"),
