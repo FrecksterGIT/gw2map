@@ -8,69 +8,72 @@ import {registerViewModel} from "../data/data-observer";
 
 export default class GW2Objective extends TemplateElement {
 	initViewModel() {
-		const Objective = DefineMap.extend({
-			id: {type: "string"},
-			type: {type: "string", "default": this.getAttribute("type")},
-			name: {type: "string", "default": this.getAttribute("name")},
-			owner: {type: "string"},
-			last_flipped: {type: "string"},
-			claimed_by: {type: "string"},
-			claimed_at: {type: "string"},
-			points_tick: {type: "number"},
-			points_capture: {type: "number"},
-			yaks_delivered: {type: "observable"},
-			guild_upgrades: {type: "observable"},
-			tierInfo: {
-				value: prop => {
-					prop.listenTo("yaks_delivered", function() {
-						if (this.yaks_delivered >= 140) {
-							prop.resolve(3);
-						}
-						else if (this.yaks_delivered >= 60) {
-							prop.resolve(2);
-						}
-						else if (this.yaks_delivered >= 20) {
-							prop.resolve(1);
-						}
-						else {
-							prop.resolve(0);
-						}
-					});
-				}
-			},
-			dolyakInfo: {
-				value: prop => {
-					prop.listenTo("yaks_delivered", function() {
-						if (this.yaks_delivered >= 140) {
-							prop.resolve("");
-						}
-						else if (this.yaks_delivered >= 60) {
-							prop.resolve(this.yaks_delivered - 60 + " / 80");
-						}
-						else if (this.yaks_delivered >= 20) {
-							prop.resolve(this.yaks_delivered - 20 + " / 40");
-						}
-						else {
-							prop.resolve(this.yaks_delivered + " / 20");
-						}
-					});
-				}
-			},
-			guildInfo: {
-				value: prop => {
-					prop.listenTo("claimed_by", function() {
-						if (!this.claimed_by) {
-							prop.resolve("");
-						}
-						else {
-							getGuild(this.claimed_by).then(guildData => {
-								prop.resolve(guildData.name + " [" + guildData.tag + "]");
-							});
-						}
-					});
+		const Objective = DefineMap.extend(
+			{seal: false},
+			{
+				id: {type: "string"},
+				type: {type: "string", "default": this.getAttribute("type")},
+				name: {type: "string", "default": this.getAttribute("name")},
+				owner: {type: "string"},
+				last_flipped: {type: "string"},
+				claimed_by: {type: "string"},
+				claimed_at: {type: "string"},
+				points_tick: {type: "number"},
+				points_capture: {type: "number"},
+				yaks_delivered: {type: "observable"},
+				guild_upgrades: {type: "observable"},
+				tierInfo: {
+					value: prop => {
+						prop.listenTo("yaks_delivered", function() {
+							if (this.yaks_delivered >= 140) {
+								prop.resolve(3);
+							}
+							else if (this.yaks_delivered >= 60) {
+								prop.resolve(2);
+							}
+							else if (this.yaks_delivered >= 20) {
+								prop.resolve(1);
+							}
+							else {
+								prop.resolve(0);
+							}
+						});
+					}
+				},
+				dolyakInfo: {
+					value: prop => {
+						prop.listenTo("yaks_delivered", function() {
+							if (this.yaks_delivered >= 140) {
+								prop.resolve("");
+							}
+							else if (this.yaks_delivered >= 60) {
+								prop.resolve(this.yaks_delivered - 60 + " / 80");
+							}
+							else if (this.yaks_delivered >= 20) {
+								prop.resolve(this.yaks_delivered - 20 + " / 40");
+							}
+							else {
+								prop.resolve(this.yaks_delivered + " / 20");
+							}
+						});
+					}
+				},
+				guildInfo: {
+					value: prop => {
+						prop.listenTo("claimed_by", function() {
+							if (!this.claimed_by) {
+								prop.resolve("");
+							}
+							else {
+								getGuild(this.claimed_by).then(guildData => {
+									prop.resolve(guildData.name + " [" + guildData.tag + "]");
+								});
+							}
+						});
+					}
 				}
 			}
-		});
+		);
 		this.viewModel = new Objective();
 		registerViewModel(this.getAttribute("id"), "objective", this.viewModel);
 		return Promise.resolve(this.viewModel);
@@ -85,10 +88,38 @@ export default class GW2Objective extends TemplateElement {
 			const initTimeUpdatesHandler = this.initTimeUpdates.bind(this);
 			const stopTimeUpdatesHandler = this.stopTimeUpdates.bind(this);
 			const turnedTimerHandler = this.initTurnedTimer.bind(this);
+			const newOwnerHandler = this.sendNewOwnerNotification.bind(this);
+			const newClaimHandler = this.sendNewClaimNotification.bind(this);
 			this.addEventListener("mouseover", initTimeUpdatesHandler);
 			this.addEventListener("mouseout", stopTimeUpdatesHandler);
 			this.viewModel.on("owner", turnedTimerHandler);
+			this.viewModel.on("owner", newOwnerHandler);
+			this.viewModel.on("claimed_at", newClaimHandler);
 		}
+	}
+
+	sendNotification(type, newVal, oldVal) {
+		const changeEvent = new MessageEvent("gw2notification", {
+			bubbles: false,
+			composed: false,
+			data: {
+				type: type,
+				change: {
+					lhs: oldVal,
+					rhs: newVal
+				},
+				changedData: this.viewModel
+			}
+		});
+		window.dispatchEvent(changeEvent);
+	}
+
+	sendNewOwnerNotification(evt, newVal, oldVal) {
+		this.sendNotification("owner", newVal, oldVal);
+	}
+
+	sendNewClaimNotification(evt, newVal, oldVal) {
+		this.sendNotification("claim", newVal, oldVal);
 	}
 
 	isRuins() {

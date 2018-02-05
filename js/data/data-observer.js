@@ -29,6 +29,9 @@ const updateAllData = data => {
 	});
 	data.maps.forEach(map => {
 		map.objectives.forEach(objective => {
+			objective.map_id = map.id;
+			objective.map_type = map.type;
+			objective.match_worlds = data.worlds;
 			deliverUpdate({
 				type: "objective",
 				id: objective.id,

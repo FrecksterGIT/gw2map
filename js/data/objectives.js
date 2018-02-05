@@ -34,30 +34,21 @@ const getObjectiveName = objective => {
 	});
 };
 
-const getMapForObjective = objective => {
-	return new Promise(resolve => {
-		let matchData = getCurrentMatchData();
-		let map = false;
-		if (matchData) {
-			matchData.maps.forEach(currentItem => {
-				let found = currentItem.objectives.find(obj => obj.id === objective.id);
-				if (found) {
-					map = currentItem;
-				}
-			});
-		}
-		resolve(map);
-	});
-};
-
-const getMapNames = () => {
+const getMapNames = match_worlds => {
+	if (!match_worlds) {
+		return Promise.resolve({
+			Center: I18N.t("gw2:eb"),
+			RedHome: sprintf(I18N.t("gw2:borderlands"), "Red"),
+			BlueHome: sprintf(I18N.t("gw2:borderlands"), "Blue"),
+			GreenHome: sprintf(I18N.t("gw2:borderlands"), "Green")
+		});
+	}
 	return getWorlds().then(worlds => {
-		let match = getCurrentMatchData();
 		return {
 			Center: I18N.t("gw2:eb"),
-			RedHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.red].name),
-			BlueHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.blue].name),
-			GreenHome: sprintf(I18N.t("gw2:borderlands"), worlds[match.worlds.green].name)
+			RedHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.red].name),
+			BlueHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.blue].name),
+			GreenHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.green].name)
 		};
 	});
 };
@@ -65,6 +56,9 @@ const getMapNames = () => {
 const getWorldNameForColor = color => {
 	return getWorlds().then(worlds => {
 		let match = getCurrentMatchData();
+		if (!match || !match.worlds) {
+			return color;
+		}
 		return worlds[match.worlds[color.toLowerCase()]].name;
 	});
 };
@@ -80,4 +74,4 @@ const getObjectivePosition = objective => {
 	return [0, 0];
 };
 
-export {getObjectives, getObjectivePosition, getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor};
+export {getObjectives, getObjectivePosition, getObjectiveName, getMapNames, getWorldNameForColor};

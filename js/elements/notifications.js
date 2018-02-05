@@ -1,12 +1,23 @@
 import TemplateElement from "./template-element";
 import template from "./templates/notifications.tpl";
 import {getGuild} from "../data/guilds";
-import {getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor} from "../data/objectives";
+import {getObjectiveName, getMapNames, getWorldNameForColor} from "../data/objectives";
 import timetools from "../utils/timetools";
 import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
+import DefineList from "can-define/list/list";
+
+/* TODO
+	viewModel should be a defineList of notification
+	register the viewModel for all interesting objectives and listen for owner and claim changes
+*/
 
 export default class Notifications extends TemplateElement {
+	initViewModel() {
+		this.viewModel = new DefineList([]);
+		return Promise.resolve(this.viewModel);
+	}
+
 	getTemplate() {
 		return template;
 	}
@@ -17,27 +28,26 @@ export default class Notifications extends TemplateElement {
 	}
 
 	addNewOwnerNotification(change, objective) {
+		console.log(change);
 		if (objective.type === "Ruins" || objective.type === "Mercenary") {
 			return;
 		}
 		getObjectiveName(objective)
 			.then(objectiveName => {
-				return getMapForObjective(objective).then(map => {
-					return getMapNames().then(mapNames => {
-						return getWorldNameForColor(objective.owner).then(worldName => {
-							// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
-							let message = sprintf(
-								I18N.t("gw2:turnedString"),
-								objective.id,
-								change.lhs, // old owner color
-								objectiveName,
-								map.type, // color for map
-								mapNames[map.type], // map name
-								objective.owner, // owner class
-								worldName // owner name
-							);
-							this.addNewNotification(message, objective.last_flipped, "flipped");
-						});
+				return getMapNames(objective.match_worlds).then(mapNames => {
+					return getWorldNameForColor(objective.owner).then(worldName => {
+						// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
+						let message = sprintf(
+							I18N.t("gw2:turnedString"),
+							objective.id,
+							change.lhs, // old owner color
+							objectiveName,
+							objective.map_type, // color for map
+							mapNames[objective.map_type], // map name
+							objective.owner, // owner class
+							worldName // owner name
+						);
+						this.addNewNotification(message, objective.last_flipped, "flipped");
 					});
 				});
 			})
@@ -65,16 +75,16 @@ export default class Notifications extends TemplateElement {
 
 	addNewNotification(notification, date, type) {
 		var notificationTime = timetools.toTime(date);
-		let entry = document.createElement("div");
-		entry.classList.add("notification");
-		entry.classList.add(type);
-		entry.innerHTML = notificationTime + " " + notification;
-		let notifications = this.shadowRoot.querySelector(".notifications");
-		notifications.insertBefore(entry.cloneNode(true), notifications.firstChild);
+		this.viewModel.unshift({
+			timestamp: Date.parse(date),
+			date: notificationTime,
+			message: notification,
+			type: type
+		});
 	}
 
 	handleNewNotification(changedDataEvent) {
-		switch (changedDataEvent.data.change.attr) {
+		switch (changedDataEvent.data.type) {
 			case "owner": {
 				this.addNewOwnerNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
 				break;

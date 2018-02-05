@@ -42,6 +42,7 @@ const initMatchUpdates = () => {
 		updateAllData(match);
 		setInterval(function() {
 			getMatch(matchId).then(data => {
+				currentMatchData = data;
 				updateAllData(data);
 			});
 		}, 5000);
