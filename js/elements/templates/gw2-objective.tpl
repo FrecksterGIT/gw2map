@@ -23,7 +23,7 @@
 				<div class="guild_emblem"></div>
 				<span class="name">{{=context.name}}</span>
 				<span class="timer"></span>
-				<span class="guildInfo">{{=context.guildInfo}}</span>
+				<span class="guildname">{{=context.guildInfo}}</span>
 				<span class="claimed"></span>
 				{{#if context.dolyakInfo}}<span class="dollies">{{=context.dolyakInfo}}</span>{{/if}}
 				<span class="upgrades">
