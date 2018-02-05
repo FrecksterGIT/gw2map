@@ -7,8 +7,7 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const config = {
 	context: path.resolve(__dirname, "../js"),
 	entry: {
-		application: "./application",
-		can_application: "./can_application"
+		application: "./application"
 	},
 	output: {
 		path: path.resolve(__dirname, "../docroot/js/build"),
@@ -36,11 +35,8 @@ const config = {
 				use: ["babel-loader", "eslint-loader"]
 			},
 			{
-				test: /\.dot$/,
-				loader: "dotjs-loader",
-				options: {
-					varname: "context"
-				}
+				test: /\.tpl$/,
+				loader: "raw-loader"
 			}
 		]
 	},

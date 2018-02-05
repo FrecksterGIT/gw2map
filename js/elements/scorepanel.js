@@ -1,15 +1,86 @@
 import TemplateElement from "./template-element";
-import template from "./templates/scorepanel.dot";
+import template from "./templates/scorepanel.tpl";
 import {getMatchId, getMatch} from "../data/matches";
 import {getWorlds} from "../data/worlds";
 import Chart from "chart.js";
+import DefineMap from "can-define/map/map";
+import {registerViewModel} from "../data/data-observer";
 
 export default class ScorePanel extends TemplateElement {
+	initViewModel() {
+		const Scores = DefineMap.extend(
+			{seal: false},
+			{
+				world_names: {
+					type: "observable"
+				},
+				all_world_names: {
+					type: "observable"
+				},
+				income: {
+					value: prop => {
+						prop.listenTo("scores", function() {
+							const income = {Red: 0, Blue: 0, Green: 0};
+							this.maps.forEach(map => {
+								["Red", "Blue", "Green"].forEach(color => {
+									income[color] += map.objectives
+										.filter(obj => obj.owner === color)
+										.map(obj => obj.points_tick)
+										.reduce((acc, curr) => acc + curr);
+								});
+							});
+							prop.resolve(income);
+						});
+					}
+				},
+				scores: {
+					type: "observable"
+				},
+				currentScores: {
+					value: prop => {
+						prop.listenTo("scores", function() {
+							const latestSkirmish = this.skirmishes.reduce((latest, current) => {
+								if (latest) {
+									return current.id > latest.id ? current : latest;
+								}
+								return current;
+							});
+							prop.resolve(latestSkirmish.scores);
+						});
+					}
+				},
+				victory_points: {
+					type: "observable"
+				},
+				victory_points_diff: {
+					value: prop => {
+						prop.listenTo("victory_points", function() {
+							let points = [this.victory_points.red, this.victory_points.blue, this.victory_points.green];
+							let maximum = points.reduce((max, cur) => Math.max(max, cur));
+							prop.resolve({
+								red: this.victory_points.red - maximum,
+								blue: this.victory_points.blue - maximum,
+								green: this.victory_points.green - maximum
+							});
+						});
+					}
+				},
+				skirmishes: {type: "observable"},
+				maps: {type: "observable"}
+			}
+		);
+		return this.getViewModel().then(data => {
+			this.viewModel = new Scores(data);
+			registerViewModel(data.id, "match", this.viewModel);
+			return this.viewModel;
+		});
+	}
+
 	getTemplate() {
 		return template;
 	}
 
-	getTemplateData() {
+	getViewModel() {
 		return getWorlds().then(worlds => {
 			return getMatch(getMatchId()).then(result => {
 				return this.fillMatchData(worlds, result);
@@ -17,27 +88,15 @@ export default class ScorePanel extends TemplateElement {
 		});
 	}
 
-	templateRendered(data) {
-		this.redraw({data: {changedData: data}});
-		let changeEventHandler = this.redraw.bind(this);
-		window.addEventListener("gw2scoreboard", changeEventHandler);
+	templateRendered() {
+		const chartHandler = this.drawChart.bind(this);
+		this.viewModel.on("income", chartHandler);
 	}
 
 	fillMatchData(worlds, match) {
 		let filledMatch = match;
-		filledMatch.currentScores = this.getCurrentScores(match);
-		filledMatch.income = this.getIncome(match);
-		filledMatch.victory_points_diff = this.getVictoryPointDiffs(match);
 		filledMatch = this.setWorldNamesForMatch(worlds, match);
 		return filledMatch;
-	}
-
-	getVictoryPointDiffs(match) {
-		return {
-			red: this.getVictoryPointDiff("red", match.victory_points),
-			blue: this.getVictoryPointDiff("blue", match.victory_points),
-			green: this.getVictoryPointDiff("green", match.victory_points)
-		};
 	}
 
 	setWorldNamesForMatch(worlds, match) {
@@ -63,64 +122,8 @@ export default class ScorePanel extends TemplateElement {
 		return match;
 	}
 
-	redraw(changedDataEvent) {
-		getWorlds().then(worlds => {
-			let data = this.fillMatchData(worlds, changedDataEvent.data.changedData);
-			let table = this.shadowRoot.querySelector('table');
-			this.fillTable(table, data);
-		});
-	}
-
-	fillTable(table, data) {
-		if (table) {
-			table.classList.add("active");
-			table.querySelector(".green_world .current_score").innerHTML = data.currentScores.green;
-			table.querySelector(".blue_world .current_score").innerHTML = data.currentScores.blue;
-			table.querySelector(".red_world .current_score").innerHTML = data.currentScores.red;
-			table.querySelector(".green_world .income").innerHTML = data.income.Green;
-			table.querySelector(".blue_world .income").innerHTML = data.income.Blue;
-			table.querySelector(".red_world .income").innerHTML = data.income.Red;
-			table.querySelector(".green_world .victory_points").innerHTML = data.victory_points.green;
-			table.querySelector(".green_world .diff").innerHTML = data.victory_points_diff.green;
-			table.querySelector(".blue_world .victory_points").innerHTML = data.victory_points.blue;
-			table.querySelector(".blue_world .diff").innerHTML = data.victory_points_diff.blue;
-			table.querySelector(".red_world .victory_points").innerHTML = data.victory_points.red;
-			table.querySelector(".red_world .diff").innerHTML = data.victory_points_diff.red;
-			this.drawChart(table, data);
-		}
-	}
-
-	getVictoryPointDiff(color, all_points) {
-		let points = [all_points.red, all_points.blue, all_points.green];
-		let maximum = points.reduce((max, cur) => Math.max(max, cur));
-		return all_points[color] - maximum;
-	}
-
-	getCurrentScores(match) {
-		let skirmish = match.skirmishes.reduce((latest, current) => {
-			if (latest) {
-				return current.id > latest.id ? current : latest;
-			}
-			return current;
-		});
-		return skirmish.scores;
-	}
-
-	getIncome(match) {
-		let income = {Red: 0, Blue: 0, Green: 0};
-		match.maps.forEach(map => {
-			["Red", "Blue", "Green"].forEach(color => {
-				income[color] += map.objectives
-					.filter(obj => obj.owner === color)
-					.map(obj => obj.points_tick)
-					.reduce((acc, curr) => acc + curr);
-			});
-		});
-		return income;
-	}
-
-	drawChart(table, match) {
-		let income = this.getIncome(match);
+	drawChart() {
+		let income = this.viewModel.income;
 		this.chartData = {
 			datasets: [
 				{
@@ -131,7 +134,7 @@ export default class ScorePanel extends TemplateElement {
 			]
 		};
 		if (!this.chart) {
-			let ctx = table.querySelector(".chart").getContext("2d");
+			let ctx = this.shadowRoot.querySelector(".chart").getContext("2d");
 			this.chart = new Chart(ctx, {
 				type: "pie",
 				data: this.chartData,
@@ -148,7 +151,7 @@ export default class ScorePanel extends TemplateElement {
 			this.chart.update();
 		}
 		let rotate = income.Red / (income.Blue + income.Green + income.Red) / 2 * 360;
-		table.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
+		this.shadowRoot.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
 	}
 }
 

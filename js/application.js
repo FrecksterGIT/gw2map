@@ -3,12 +3,12 @@ import Borderland from "./elements/borderland";
 import GW2Objective from "./elements/objective";
 import Notifications from "./elements/notifications";
 import ScorePanel from "./elements/scorepanel";
-import {updateMatchData, getMatchId} from "./data/matches";
 import I18N from "./utils/i18n";
 import en from "../locales/en.json";
 import de from "../locales/de.json";
 import fr from "../locales/fr.json";
 import es from "../locales/es.json";
+import {initMatchUpdates} from "./data/matches";
 
 I18N.init({
 	lng: "en",
@@ -28,8 +28,6 @@ I18N.init({
 	}
 });
 
-let matchId = getMatchId();
-setInterval(updateMatchData, 5000, matchId);
-updateMatchData(matchId);
+initMatchUpdates();
 
 export {Borderland, GW2Map, GW2Objective, ScorePanel, Notifications};

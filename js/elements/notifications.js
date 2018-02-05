@@ -1,5 +1,5 @@
 import TemplateElement from "./template-element";
-import template from "./templates/notifications.dot";
+import template from "./templates/notifications.tpl";
 import {getGuild} from "../data/guilds";
 import {getObjectiveName, getMapForObjective, getMapNames, getWorldNameForColor} from "../data/objectives";
 import timetools from "../utils/timetools";

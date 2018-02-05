@@ -1,4 +1,5 @@
 import Promise from "bluebird";
+import stache from "can-stache";
 
 export default class TemplateElement extends HTMLElement {
 	constructor() {
@@ -7,29 +8,23 @@ export default class TemplateElement extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.renderTemplate();
+		const tpl = stache(this.getTemplate());
+		this.initViewModel().then(vm => {
+			const elm = tpl({context: vm});
+			this.shadowRoot.appendChild(elm);
+			this.templateRendered();
+		});
 	}
 
-	// eslint-disable-next-line no-unused-vars
-	templateRendered(data) {
+	initViewModel() {
+		return Promise.resolve({});
+	}
+
+	templateRendered() {
 		// do nothing here. might want to do something in extended classes
 	}
 
 	getTemplate() {
 		throw new Error("need to specify a template");
-	}
-
-	getTemplateData() {
-		return Promise.resolve({});
-	}
-
-	renderTemplate() {
-		let template = this.getTemplate();
-		let elm = document.createElement("div");
-		this.getTemplateData().then(data => {
-			elm.innerHTML = template(data);
-			this.shadowRoot.appendChild(elm.cloneNode(true));
-			this.templateRendered(data);
-		});
 	}
 }

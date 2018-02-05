@@ -75,7 +75,7 @@ const getObjectivePosition = objective => {
 	let point = objective.coord;
 	if (point) {
 		let coord = [point[0] - map[0][0], point[1] - map[0][1]];
-		return [[coord[0] / mapSize[0] * 100], [coord[1] / mapSize[1] * 100]];
+		return [coord[0] / mapSize[0] * 100, coord[1] / mapSize[1] * 100];
 	}
 	return [0, 0];
 };

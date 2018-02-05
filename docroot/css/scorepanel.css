@@ -2,13 +2,8 @@
 	border-collapse: collapse;
 	border-spacing: 0;
 	color: #707070;
-	display: none;
 	font: 11px/13px "Open Sans", sans-serif, arial;
 	white-space: nowrap;
-}
-
-:host table.active {
-	display: block;
 }
 
 :host .name {
