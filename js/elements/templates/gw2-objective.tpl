@@ -1,20 +1,21 @@
 <link rel="stylesheet" type="text/css" href="css/gw2-objective.css" />
 
 {{#if context.type}}
-	{{#if (context.type == "Castle")}}
-	<link rel="stylesheet" type="text/css" href="css/obj-castle.css" /> {{/if}}
-	{{#if (context.type == "Keep")}}
-	<link rel="stylesheet" type="text/css" href="css/obj-keep.css" /> {{/if}}
-	{{#if (context.type == "Tower")}}
-	<link rel="stylesheet" type="text/css" href="css/obj-tower.css" /> {{/if}}
-	{{#if (context.type == "Camp")}}
-	<link rel="stylesheet" type="text/css" href="css/obj-camp.css" /> {{/if}}
-	{{#if (context.type == "Ruins")}}
-	<link rel="stylesheet" type="text/css" href="css/obj-ruins.css" /> {{/if}}
+	{{#is (context.type, "Castle")}}
+	<link rel="stylesheet" type="text/css" href="css/obj-castle.css" /> {{/is}}
+	{{#is (context.type, "Keep")}}
+	<link rel="stylesheet" type="text/css" href="css/obj-keep.css" /> {{/is}}
+	{{#is (context.type, "Tower")}}
+	<link rel="stylesheet" type="text/css" href="css/obj-tower.css" /> {{/is}}
+	{{#is (context.type, "Camp")}}
+	<link rel="stylesheet" type="text/css" href="css/obj-camp.css" /> {{/is}}
+	{{#is (context.type, "Ruins")}}
+	<link rel="stylesheet" type="text/css" href="css/obj-ruins.css" /> {{/is}}
 {{/if}}
 
 <div class="objective {{=context.type}}" owner="{{=context.owner}}" tier="{{=context.tierInfo}}" {{#if context.claimed_at}}claimed{{/if}}>
-	{{#if (context.type != "Ruins")}}
+	{{#is (context.type, "Ruins")}}
+	{{else}}
 	<div class="iteminfos">
 		<div class="turnedtext"></div>
 		<div class="marker"></div>
@@ -37,5 +38,5 @@
 			</div>
 		</div>
 	</div>
-	{{/if}}
+	{{/is}}
 </div>

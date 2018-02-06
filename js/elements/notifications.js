@@ -6,6 +6,7 @@ import timetools from "../utils/timetools";
 import I18N from "../utils/i18n";
 import {sprintf} from "sprintf-js";
 import DefineList from "can-define/list/list";
+import DefineMap from "can-define/map/map";
 
 /* TODO
 	viewModel should be a defineList of notification
@@ -14,6 +15,44 @@ import DefineList from "can-define/list/list";
 
 export default class Notifications extends TemplateElement {
 	initViewModel() {
+		this.Notification = DefineMap.extend({
+			timestamp: {
+				type: "number",
+				get: () => {
+					return this.timestamp;
+				},
+				set: value => {
+					this.timestamp = value;
+				}
+			},
+			date: {
+				type: "string",
+				get: () => {
+					return this.date;
+				},
+				set: value => {
+					this.date = value;
+				}
+			},
+			message: {
+				type: "string",
+				get: () => {
+					return this.message;
+				},
+				set: value => {
+					this.message = value;
+				}
+			},
+			type: {
+				type: "string",
+				get: () => {
+					return this.type;
+				},
+				set: value => {
+					this.type = value;
+				}
+			}
+		});
 		this.viewModel = new DefineList([]);
 		return Promise.resolve(this.viewModel);
 	}
@@ -40,7 +79,7 @@ export default class Notifications extends TemplateElement {
 						let message = sprintf(
 							I18N.t("gw2:turnedString"),
 							objective.id,
-							change.lhs, // old owner color
+							(change.lhs ? change.lhs : objective.owner), // old owner color
 							objectiveName,
 							objective.map_type, // color for map
 							mapNames[objective.map_type], // map name
@@ -74,13 +113,13 @@ export default class Notifications extends TemplateElement {
 	}
 
 	addNewNotification(notification, date, type) {
-		var notificationTime = timetools.toTime(date);
-		this.viewModel.unshift({
+		const notificationVM = new this.Notification({
 			timestamp: Date.parse(date),
-			date: notificationTime,
+			date: timetools.toTime(date),
 			message: notification,
 			type: type
 		});
+		this.viewModel.unshift(notificationVM);
 	}
 
 	handleNewNotification(changedDataEvent) {
