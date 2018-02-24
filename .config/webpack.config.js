@@ -5,7 +5,7 @@ const webpack = require("webpack");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const config = {
-	context: path.resolve(__dirname, "../js"),
+	context: path.resolve(__dirname, "../src"),
 	entry: {
 		application: "./application"
 	},
@@ -25,7 +25,7 @@ const config = {
 		}
 	],
 	resolve: {
-		modules: [path.resolve(__dirname, "js"), "node_modules"]
+		modules: [path.resolve(__dirname, "src"), "node_modules"]
 	},
 	module: {
 		loaders: [

@@ -6,7 +6,7 @@ module.exports = function(config) {
 	config.set({
 		singleRun: true,
 		browsers: ["ChromeHeadless"],
-		basePath: "../js",
+		basePath: "../src",
 		files: [
 			{
 				pattern: "**/*.spec.js"

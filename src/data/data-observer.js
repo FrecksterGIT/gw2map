@@ -41,4 +41,4 @@ const updateAllData = data => {
 	});
 };
 
-export {registerViewModel, deliverUpdate, updateAllData};
+export {registerViewModel, updateAllData};
