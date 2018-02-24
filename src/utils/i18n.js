@@ -1,12 +1,11 @@
 let instance = false;
 export default class I18N {
-
 	constructor(options) {
 		this.options = this.options || {};
 		if (options) {
 			this.options = Object.assign(this.options, options);
 		}
-		this.options.lng = this.options.lng || "en";
+		this.options.lng = this.options.lng || 'en';
 
 		this.active = {};
 		this.flattenResources();
@@ -22,14 +21,14 @@ export default class I18N {
 
 	static getCurrentLanguage() {
 		if (!instance) {
-			throw new Error("you need to initialize the i18n module before using it.");
+			throw new Error('you need to initialize the i18n module before using it.');
 		}
 		return instance.options.lng;
 	}
 
 	static t(key) {
 		if (!instance) {
-			throw new Error("you need to initialize the i18n module before using it.");
+			throw new Error('you need to initialize the i18n module before using it.');
 		}
 		return instance.translate(key);
 	}
@@ -56,7 +55,7 @@ export default class I18N {
 		let result = [];
 		for (let [namespace, values] of this.entries(languageResource)) {
 			for (let [entrykey, translation] of this.entries(values)) {
-				result[namespace + ":" + entrykey] = translation;
+				result[namespace + ':' + entrykey] = translation;
 			}
 		}
 		return result;
@@ -65,5 +64,4 @@ export default class I18N {
 	translate(key) {
 		return this.active[key] || key;
 	}
-
 }

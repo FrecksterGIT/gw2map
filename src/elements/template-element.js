@@ -1,10 +1,10 @@
-import Promise from "bluebird";
-import stache from "can-stache";
+import Promise from 'bluebird';
+import stache from 'can-stache';
 
 export default class TemplateElement extends HTMLElement {
 	constructor() {
 		super();
-		this.attachShadow({mode: "open"});
+		this.attachShadow({mode: 'open'});
 	}
 
 	connectedCallback() {
@@ -25,6 +25,6 @@ export default class TemplateElement extends HTMLElement {
 	}
 
 	getTemplate() {
-		throw new Error("need to specify a template");
+		throw new Error('need to specify a template');
 	}
 }

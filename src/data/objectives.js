@@ -1,12 +1,12 @@
-import Promise from "bluebird";
-import {sprintf} from "sprintf-js";
-import {getWorlds} from "./worlds";
-import I18N from "../utils/i18n";
-import objectivesDataEn from "../static-cache/objectives_en.json";
-import objectivesDataDe from "../static-cache/objectives_de.json";
-import objectivesDataFr from "../static-cache/objectives_fr.json";
-import objectivesDataEs from "../static-cache/objectives_es.json";
-import {getCurrentMatchData} from "./matches";
+import Promise from 'bluebird';
+import {sprintf} from 'sprintf-js';
+import {getWorlds} from './worlds';
+import I18N from '../utils/i18n';
+import objectivesDataEn from '../static-cache/objectives_en.json';
+import objectivesDataDe from '../static-cache/objectives_de.json';
+import objectivesDataFr from '../static-cache/objectives_fr.json';
+import objectivesDataEs from '../static-cache/objectives_es.json';
+import {getCurrentMatchData} from './matches';
 
 const MAP_SIZES = {
 	Center: [[8958, 12798], [12030, 15870]],
@@ -17,11 +17,11 @@ const MAP_SIZES = {
 
 const getObjectives = () => {
 	switch (I18N.getCurrentLanguage()) {
-		case "de":
+		case 'de':
 			return Promise.resolve(objectivesDataDe);
-		case "fr":
+		case 'fr':
 			return Promise.resolve(objectivesDataFr);
-		case "es":
+		case 'es':
 			return Promise.resolve(objectivesDataEs);
 		default:
 			return Promise.resolve(objectivesDataEn);
@@ -37,18 +37,18 @@ const getObjectiveName = objective => {
 const getMapNames = match_worlds => {
 	if (!match_worlds) {
 		return Promise.resolve({
-			Center: I18N.t("gw2:eb"),
-			RedHome: sprintf(I18N.t("gw2:borderlands"), "Red"),
-			BlueHome: sprintf(I18N.t("gw2:borderlands"), "Blue"),
-			GreenHome: sprintf(I18N.t("gw2:borderlands"), "Green")
+			Center: I18N.t('gw2:eb'),
+			RedHome: sprintf(I18N.t('gw2:borderlands'), 'Red'),
+			BlueHome: sprintf(I18N.t('gw2:borderlands'), 'Blue'),
+			GreenHome: sprintf(I18N.t('gw2:borderlands'), 'Green')
 		});
 	}
 	return getWorlds().then(worlds => {
 		return {
-			Center: I18N.t("gw2:eb"),
-			RedHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.red].name),
-			BlueHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.blue].name),
-			GreenHome: sprintf(I18N.t("gw2:borderlands"), worlds[match_worlds.green].name)
+			Center: I18N.t('gw2:eb'),
+			RedHome: sprintf(I18N.t('gw2:borderlands'), worlds[match_worlds.red].name),
+			BlueHome: sprintf(I18N.t('gw2:borderlands'), worlds[match_worlds.blue].name),
+			GreenHome: sprintf(I18N.t('gw2:borderlands'), worlds[match_worlds.green].name)
 		};
 	});
 };

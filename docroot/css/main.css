@@ -13,6 +13,7 @@ section {
 	margin: 0 auto;
 	max-width: 1140px;
 	min-width: 900px;
+	position: relative;
 	width: 90%;
 }
 
@@ -26,4 +27,13 @@ gw2-scorepanel,
 gw2-notifications {
 	display: block;
 	width: 50%;
+}
+
+gw2-matchespanel {
+	background: #fff;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	width: 50%;
+	z-index: 1;
 }

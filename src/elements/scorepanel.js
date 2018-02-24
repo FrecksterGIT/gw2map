@@ -1,10 +1,10 @@
-import TemplateElement from "./template-element";
-import template from "./templates/scorepanel.tpl";
-import {getMatchId, getMatch} from "../data/matches";
-import {getWorlds} from "../data/worlds";
-import Chart from "chart.js";
-import DefineMap from "can-define/map/map";
-import {registerViewModel} from "../data/data-observer";
+import TemplateElement from './template-element';
+import template from './templates/scorepanel.tpl';
+import {getMatchId, getMatch} from '../data/matches';
+import {getWorlds} from '../data/worlds';
+import Chart from 'chart.js';
+import DefineMap from 'can-define/map/map';
+import {registerViewModel} from '../data/data-observer';
 
 export default class ScorePanel extends TemplateElement {
 	initViewModel() {
@@ -12,17 +12,17 @@ export default class ScorePanel extends TemplateElement {
 			{seal: false},
 			{
 				world_names: {
-					type: "observable"
+					type: 'observable'
 				},
 				all_world_names: {
-					type: "observable"
+					type: 'observable'
 				},
 				income: {
 					value: prop => {
-						prop.listenTo("scores", function() {
+						prop.listenTo('scores', function() {
 							const income = {Red: 0, Blue: 0, Green: 0};
 							this.maps.forEach(map => {
-								["Red", "Blue", "Green"].forEach(color => {
+								['Red', 'Blue', 'Green'].forEach(color => {
 									income[color] += map.objectives
 										.filter(obj => obj.owner === color)
 										.map(obj => obj.points_tick)
@@ -34,11 +34,11 @@ export default class ScorePanel extends TemplateElement {
 					}
 				},
 				scores: {
-					type: "observable"
+					type: 'observable'
 				},
 				currentScores: {
 					value: prop => {
-						prop.listenTo("scores", function() {
+						prop.listenTo('scores', function() {
 							const latestSkirmish = this.skirmishes.reduce((latest, current) => {
 								if (latest) {
 									return current.id > latest.id ? current : latest;
@@ -50,11 +50,11 @@ export default class ScorePanel extends TemplateElement {
 					}
 				},
 				victory_points: {
-					type: "observable"
+					type: 'observable'
 				},
 				victory_points_diff: {
 					value: prop => {
-						prop.listenTo("victory_points", function() {
+						prop.listenTo('victory_points', function() {
 							let points = [this.victory_points.red, this.victory_points.blue, this.victory_points.green];
 							let maximum = points.reduce((max, cur) => Math.max(max, cur));
 							prop.resolve({
@@ -65,13 +65,13 @@ export default class ScorePanel extends TemplateElement {
 						});
 					}
 				},
-				skirmishes: {type: "observable"},
-				maps: {type: "observable"}
+				skirmishes: {type: 'observable'},
+				maps: {type: 'observable'}
 			}
 		);
 		return this.getViewModel().then(data => {
 			this.viewModel = new Scores(data);
-			registerViewModel(data.id, "match", this.viewModel);
+			registerViewModel(data.id, 'match', this.viewModel);
 			return this.viewModel;
 		});
 	}
@@ -90,7 +90,12 @@ export default class ScorePanel extends TemplateElement {
 
 	templateRendered() {
 		const chartHandler = this.drawChart.bind(this);
-		this.viewModel.on("income", chartHandler);
+		this.viewModel.on('income', chartHandler);
+		this.addEventListener('click', this.openMatchesPanel);
+	}
+
+	openMatchesPanel() {
+		document.querySelector('gw2-matchespanel').setAttribute('open', 'open');
 	}
 
 	fillMatchData(worlds, match) {
@@ -109,15 +114,15 @@ export default class ScorePanel extends TemplateElement {
 			red: match.all_worlds.red
 				.filter(item => item !== match.worlds.red)
 				.map(world => worlds[world].name)
-				.join(", "),
+				.join(', '),
 			blue: match.all_worlds.blue
 				.filter(item => item !== match.worlds.blue)
 				.map(world => worlds[world].name)
-				.join(", "),
+				.join(', '),
 			green: match.all_worlds.green
 				.filter(item => item !== match.worlds.green)
 				.map(world => worlds[world].name)
-				.join(", ")
+				.join(', ')
 		};
 		return match;
 	}
@@ -128,15 +133,15 @@ export default class ScorePanel extends TemplateElement {
 			datasets: [
 				{
 					data: [income.Blue, income.Green, income.Red],
-					labels: ["Blue", "Green", "Red"],
-					backgroundColor: ["#1a4da1", "#1e7b2d", "#b02822"]
+					labels: ['Blue', 'Green', 'Red'],
+					backgroundColor: ['#1a4da1', '#1e7b2d', '#b02822']
 				}
 			]
 		};
 		if (!this.chart) {
-			let ctx = this.shadowRoot.querySelector(".chart").getContext("2d");
+			let ctx = this.shadowRoot.querySelector('.chart').getContext('2d');
 			this.chart = new Chart(ctx, {
-				type: "pie",
+				type: 'pie',
 				data: this.chartData,
 				options: {
 					tooltips: {enabled: false},
@@ -151,8 +156,8 @@ export default class ScorePanel extends TemplateElement {
 			this.chart.update();
 		}
 		let rotate = income.Red / (income.Blue + income.Green + income.Red) / 2 * 360;
-		this.shadowRoot.querySelector(".chart").style.transform = "rotate(" + rotate + "deg)";
+		this.shadowRoot.querySelector('.chart').style.transform = 'rotate(' + rotate + 'deg)';
 	}
 }
 
-window.customElements.define("gw2-scorepanel", ScorePanel);
+window.customElements.define('gw2-scorepanel', ScorePanel);

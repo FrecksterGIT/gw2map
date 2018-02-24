@@ -1,8 +1,8 @@
-import Promise from "bluebird";
-import TemplateElement from "./template-element";
-import template from "./templates/gw2-borderland.tpl";
-import {getObjectives, getObjectivePosition} from "../data/objectives";
-import DefineList from "can-define/list/list";
+import Promise from 'bluebird';
+import TemplateElement from './template-element';
+import template from './templates/gw2-borderland.tpl';
+import {getObjectives, getObjectivePosition} from '../data/objectives';
+import DefineList from 'can-define/list/list';
 
 export default class Borderland extends TemplateElement {
 	getTemplate() {
@@ -27,4 +27,4 @@ export default class Borderland extends TemplateElement {
 	}
 }
 
-window.customElements.define("gw2-borderland", Borderland);
+window.customElements.define('gw2-borderland', Borderland);

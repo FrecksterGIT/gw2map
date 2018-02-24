@@ -1,23 +1,18 @@
-import TemplateElement from "./template-element";
-import template from "./templates/notifications.tpl";
-import {getGuild} from "../data/guilds";
-import {getObjectiveName, getMapNames, getWorldNameForColor} from "../data/objectives";
-import timetools from "../utils/timetools";
-import I18N from "../utils/i18n";
-import {sprintf} from "sprintf-js";
-import DefineList from "can-define/list/list";
-import DefineMap from "can-define/map/map";
-
-/* TODO
-	viewModel should be a defineList of notification
-	register the viewModel for all interesting objectives and listen for owner and claim changes
-*/
+import TemplateElement from './template-element';
+import template from './templates/notifications.tpl';
+import {getGuild} from '../data/guilds';
+import {getObjectiveName, getMapNames, getWorldNameForColor} from '../data/objectives';
+import timetools from '../utils/timetools';
+import I18N from '../utils/i18n';
+import {sprintf} from 'sprintf-js';
+import DefineList from 'can-define/list/list';
+import DefineMap from 'can-define/map/map';
 
 export default class Notifications extends TemplateElement {
 	initViewModel() {
 		this.Notification = DefineMap.extend({
 			timestamp: {
-				type: "number",
+				type: 'number',
 				get: () => {
 					return this.timestamp;
 				},
@@ -26,7 +21,7 @@ export default class Notifications extends TemplateElement {
 				}
 			},
 			date: {
-				type: "string",
+				type: 'string',
 				get: () => {
 					return this.date;
 				},
@@ -35,7 +30,7 @@ export default class Notifications extends TemplateElement {
 				}
 			},
 			message: {
-				type: "string",
+				type: 'string',
 				get: () => {
 					return this.message;
 				},
@@ -44,7 +39,7 @@ export default class Notifications extends TemplateElement {
 				}
 			},
 			type: {
-				type: "string",
+				type: 'string',
 				get: () => {
 					return this.type;
 				},
@@ -63,12 +58,11 @@ export default class Notifications extends TemplateElement {
 
 	templateRendered() {
 		let newNotificationHandler = this.handleNewNotification.bind(this);
-		window.addEventListener("gw2notification", newNotificationHandler);
+		window.addEventListener('gw2notification', newNotificationHandler);
 	}
 
 	addNewOwnerNotification(change, objective) {
-		console.log(change);
-		if (objective.type === "Ruins" || objective.type === "Mercenary") {
+		if (objective.type === 'Ruins' || objective.type === 'Mercenary') {
 			return;
 		}
 		getObjectiveName(objective)
@@ -77,16 +71,16 @@ export default class Notifications extends TemplateElement {
 					return getWorldNameForColor(objective.owner).then(worldName => {
 						// objectiveId, objectiveOldOwnerClass, objectiveName, mapClass, mapName, objectiveOwnerClass, objectiveOwnerName
 						let message = sprintf(
-							I18N.t("gw2:turnedString"),
+							I18N.t('gw2:turnedString'),
 							objective.id,
-							(change.lhs ? change.lhs : objective.owner), // old owner color
+							change.lhs ? change.lhs : objective.owner, // old owner color
 							objectiveName,
 							objective.map_type, // color for map
 							mapNames[objective.map_type], // map name
 							objective.owner, // owner class
 							worldName // owner name
 						);
-						this.addNewNotification(message, objective.last_flipped, "flipped");
+						this.addNewNotification(message, objective.last_flipped, 'flipped');
 					});
 				});
 			})
@@ -103,8 +97,8 @@ export default class Notifications extends TemplateElement {
 			getObjectiveName(objective)
 				.then(objectiveName => {
 					// objectiveId, objectiveOwnerClass, objectiveName, guildTag, guildName
-					let message = sprintf(I18N.t("gw2:claimedString"), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
-					this.addNewNotification(message, objective.claimed_at, "claimed");
+					let message = sprintf(I18N.t('gw2:claimedString'), objective.id, objective.owner, objectiveName, guild.tag, guild.name);
+					this.addNewNotification(message, objective.claimed_at, 'claimed');
 				})
 				.catch(err => {
 					console.log(err);
@@ -122,13 +116,17 @@ export default class Notifications extends TemplateElement {
 		this.viewModel.unshift(notificationVM);
 	}
 
+	clearNotifications() {
+		this.viewModel.replace([]);
+	}
+
 	handleNewNotification(changedDataEvent) {
 		switch (changedDataEvent.data.type) {
-			case "owner": {
+			case 'owner': {
 				this.addNewOwnerNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
 				break;
 			}
-			case "claimed_by": {
+			case 'claim': {
 				this.addNewClaimNotification(changedDataEvent.data.change, changedDataEvent.data.changedData);
 				break;
 			}
@@ -139,4 +137,4 @@ export default class Notifications extends TemplateElement {
 	}
 }
 
-window.customElements.define("gw2-notifications", Notifications);
+window.customElements.define('gw2-notifications', Notifications);

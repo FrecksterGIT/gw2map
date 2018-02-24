@@ -1,4 +1,4 @@
-import Promise from "bluebird";
+import Promise from 'bluebird';
 
 const guilds = {};
 
@@ -7,7 +7,7 @@ const getGuild = guildId => {
 		return Promise.resolve(guilds[guildId]);
 	}
 	else {
-		return fetch("https://api.guildwars2.com/v2/guild/" + guildId).then(response => {
+		return fetch('https://api.guildwars2.com/v2/guild/' + guildId).then(response => {
 			return response.json().then(guildData => {
 				guilds[guildId] = guildData;
 				return guilds[guildId];

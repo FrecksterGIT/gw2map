@@ -23,7 +23,7 @@ const deliverUpdate = update => {
 
 const updateAllData = data => {
 	deliverUpdate({
-		type: "match",
+		type: 'match',
 		id: data.id,
 		data: data
 	});
@@ -33,7 +33,7 @@ const updateAllData = data => {
 			objective.map_type = map.type;
 			objective.match_worlds = data.worlds;
 			deliverUpdate({
-				type: "objective",
+				type: 'objective',
 				id: objective.id,
 				data: objective
 			});

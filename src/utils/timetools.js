@@ -18,7 +18,7 @@ const timetools = {
 			hours,
 			minutes,
 			seconds,
-			time = "-";
+			time = '-';
 		if (sec_num) {
 			days = Math.floor(sec_num / 86400);
 			sec_num -= days * 86400;
@@ -29,20 +29,20 @@ const timetools = {
 			seconds = sec_num;
 
 			if (hours < 10) {
-				hours = "0" + hours;
+				hours = '0' + hours;
 			}
 			if (minutes < 10) {
-				minutes = "0" + minutes;
+				minutes = '0' + minutes;
 			}
 			if (seconds < 10) {
-				seconds = "0" + seconds;
+				seconds = '0' + seconds;
 			}
 			time =
-				(days > 0 ? days + "d " : "") +
-				(hours > 0 || days > 0 ? hours + "h " : "") +
-				(minutes > 0 || hours > 0 || days > 0 ? minutes + "m " : "") +
+				(days > 0 ? days + 'd ' : '') +
+				(hours > 0 || days > 0 ? hours + 'h ' : '') +
+				(minutes > 0 || hours > 0 || days > 0 ? minutes + 'm ' : '') +
 				seconds +
-				"s";
+				's';
 		}
 		return time;
 	},
@@ -53,15 +53,15 @@ const timetools = {
 		var seconds = sec_num - hours * 3600 - minutes * 60;
 
 		if (hours < 10) {
-			hours = "0" + hours;
+			hours = '0' + hours;
 		}
 		if (minutes < 10) {
-			minutes = "0" + minutes;
+			minutes = '0' + minutes;
 		}
 		if (seconds < 10) {
-			seconds = "0" + seconds;
+			seconds = '0' + seconds;
 		}
-		return minutes + ":" + seconds;
+		return minutes + ':' + seconds;
 	},
 
 	getPassedTime(time) {
