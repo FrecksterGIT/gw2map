@@ -1,4 +1,4 @@
-:host table {
+table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	color: #707070;
@@ -6,24 +6,24 @@
 	white-space: nowrap;
 }
 
-:host .name {
+.name {
 	position: relative;
 	text-align: left;
 }
 
-:host .green_world .name {
+.green_world .name {
 	color: #1e7b2d;
 }
 
-:host .blue_world .name {
+.blue_world .name {
 	color: #1a4da1;
 }
 
-:host .red_world .name {
+.red_world .name {
 	color: #b02822;
 }
 
-:host .name span {
+.name span {
 	background: #fff;
 	border: 1px solid #707070;
 	color: #707070;
@@ -36,73 +36,73 @@
 	z-index: 1;
 }
 
-:host .name:hover span {
+.name:hover span {
 	display: block;
 }
 
-:host .bar > div {
+.bar > div {
 	width: 75px;
 }
 
-:host .bar > div > div {
+.bar > div > div {
 	border-radius: 5px;
 	height: 6px;
 	margin: 0;
 }
 
-:host .green_world .bar > div > div {
+.green_world .bar > div > div {
 	background: #1e7b2d;
 }
 
-:host .blue_world .bar > div > div {
+.blue_world .bar > div > div {
 	background: #1a4da1;
 }
 
-:host .red_world .bar > div > div {
+.red_world .bar > div > div {
 	background: #b02822;
 }
 
-:host thead {
+thead {
 	text-align: center;
 }
 
-:host tbody {
+tbody {
 	text-align: right;
 }
 
-:host tbody td {
+tbody td {
 	padding: 0 10px 3px 0;
 }
 
-:host .worlds {
+.worlds {
 	text-align: left;
 	width: 125px;
 }
 
-:host thead .victory_points {
+thead .victory_points {
 	text-align: left;
 }
 
-:host .income,
-:host tbody .current_score,
-:host tbody .victory_points {
+.income,
+tbody .current_score,
+tbody .victory_points {
 	width: 47px;
 }
 
-:host tbody .victory_points {
+tbody .victory_points {
 	padding-left: 64px;
 }
 
-:host .diff {
+.diff {
 	width: 16px;
 }
 
-:host .chart_container {
+.chart_container {
 	position: relative;
 	width: 64px;
 }
 
-:host .chart {
+.chart {
 	left: 0;
 	position: absolute;
 	top: 5px;

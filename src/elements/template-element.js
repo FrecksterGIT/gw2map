@@ -4,7 +4,12 @@ import stache from 'can-stache';
 export default class TemplateElement extends HTMLElement {
 	constructor() {
 		super();
-		this.attachShadow({mode: 'open'});
+		if (this.attachShadow) {
+			this.attachShadow({mode: 'open'});
+		}
+		else {
+			this.shadowRoot = this;
+		}
 	}
 
 	connectedCallback() {

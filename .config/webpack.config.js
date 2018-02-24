@@ -35,6 +35,10 @@ const config = {
 				use: ['babel-loader', 'eslint-loader']
 			},
 			{
+				test: /node_modules\/can/,
+				use: ['babel-loader']
+			},
+			{
 				test: /\.tpl$/,
 				loader: 'raw-loader'
 			}

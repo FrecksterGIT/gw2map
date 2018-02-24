@@ -1,39 +1,40 @@
-:host {
+.map {
 	background: url("../assets/map.mixed.new.3.jpg") no-repeat center center;
 	background-size: contain;
+	padding-bottom: 69.89%;
 	position: relative;
 	width: 100%;
 }
 
-:host gw2-borderland {
+gw2-borderland {
 	display: block;
 	height: auto;
 	position: absolute;
 	width: 30%;
 }
 
-:host gw2-borderland#RedHome {
+gw2-borderland#RedHome {
 	left: 37.5%;
 	top: 1.6%;
 }
 
-:host gw2-borderland#BlueHome {
+gw2-borderland#BlueHome {
 	left: 73.7%;
 	top: 28.6%;
 }
 
-:host gw2-borderland#GreenHome {
+gw2-borderland#GreenHome {
 	left: 1.7%;
 	top: 37.7%;
 }
 
-:host gw2-borderland#Center {
+gw2-borderland#Center {
 	left: 36.8%;
 	top: 58%;
 	width: 27%;
 }
 
-:host gw2-borderland::before {
+gw2-borderland::before {
 	content: "";
 	float: left;
 	padding-bottom: 100%;

@@ -1,3 +1,4 @@
+import '@webcomponents/custom-elements';
 import GW2Map from './elements/map';
 import Borderland from './elements/borderland';
 import GW2Objective from './elements/objective';
