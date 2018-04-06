@@ -51,7 +51,7 @@
 		"prebuild": "npm-run-all clean cache vendor:*",
 		"build": "npm-run-all webpack",
 		"postbuild": "cpx ./docroot/** ./dist",
-		"clean": "rimraf ./dist ./docroot/js/**",
+		"clean": "rimraf ./dist ./docroot/js/** ./src/static-cache",
 		"prestart": "cross-env NODE_ENV=develop npm-run-all cache vendor:*",
 		"start": "cross-env NODE_ENV=development npm-run-all -p webpack-watch karma-watch run-server",
 		"test": "npm-run-all test:*",
@@ -71,7 +71,10 @@
 		"type": "git",
 		"url": "git+https://github.com/FrecksterGIT/gw2map.git"
 	},
-	"keywords": ["gw2", "wvw"],
+	"keywords": [
+		"gw2",
+		"wvw"
+	],
 	"bugs": {
 		"url": "https://github.com/FrecksterGIT/gw2map/issues"
 	},

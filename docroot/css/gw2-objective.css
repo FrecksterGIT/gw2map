@@ -113,6 +113,7 @@ div.Ruins {
 	color: #fff;
 	display: block;
 	position: absolute;
+	/* stylelint-disable-next-line value-list-comma-space-after */
 	text-shadow: 0px -1px #000, 1px 0px #000, 0px 1px #000, -1px 0px #000, 0px -1px 2px #000, 1px 0px 2px #000, 0px 1px 2px #000,
 		-1px 0px 2px #000, 0px -1px 2px #000, 1px 0px 2px #000, 0px 1px 2px #000, -1px 0px 2px #000;
 	top: 26px;
