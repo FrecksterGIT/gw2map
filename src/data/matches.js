@@ -1,6 +1,6 @@
 import Promise from 'bluebird';
 import Cookies from 'universal-cookie';
-import {updateAllData} from './data-observer';
+import dataObserver from './data-observer';
 
 const getMatchId = () => {
 	const cookies = new Cookies();
@@ -47,12 +47,12 @@ const initMatchUpdates = () => {
 	let matchId = getMatchId();
 	getMatch(matchId).then(match => {
 		currentMatchData = match;
-		updateAllData(match);
+		dataObserver.updateAllData(match);
 		matchUpdater = setInterval(function() {
 			matchId = getMatchId();
 			getMatch(matchId).then(data => {
 				currentMatchData = data;
-				updateAllData(data);
+				dataObserver.updateAllData(data);
 			});
 		}, 5000);
 	});

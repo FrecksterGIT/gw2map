@@ -4,7 +4,7 @@ import {getMatchId, getMatch} from '../data/matches';
 import {getWorlds} from '../data/worlds';
 import Chart from 'chart.js';
 import DefineMap from 'can-define/map/map';
-import {registerViewModel} from '../data/data-observer';
+import dataObserver from '../data/data-observer';
 
 export default class ScorePanel extends TemplateElement {
 	initViewModel() {
@@ -71,7 +71,7 @@ export default class ScorePanel extends TemplateElement {
 		);
 		return this.getViewModel().then(data => {
 			this.viewModel = new Scores(data);
-			registerViewModel(data.id, 'match', this.viewModel);
+			dataObserver.registerViewModel(data.id, 'match', this.viewModel);
 			return this.viewModel;
 		});
 	}

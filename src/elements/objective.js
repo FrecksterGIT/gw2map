@@ -4,7 +4,7 @@ import template from './templates/gw2-objective.tpl';
 import {getGuild} from '../data/guilds';
 import timetools from '../utils/timetools';
 import DefineMap from 'can-define/map/map';
-import {registerViewModel} from '../data/data-observer';
+import dataObserver from '../data/data-observer';
 
 export default class GW2Objective extends TemplateElement {
 	initViewModel() {
@@ -75,7 +75,7 @@ export default class GW2Objective extends TemplateElement {
 			}
 		);
 		this.viewModel = new Objective();
-		registerViewModel(this.getAttribute('id'), 'objective', this.viewModel);
+		dataObserver.registerViewModel(this.getAttribute('id'), 'objective', this.viewModel);
 		return Promise.resolve(this.viewModel);
 	}
 
