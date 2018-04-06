@@ -28,7 +28,7 @@ const config = {
 		modules: [path.resolve(__dirname, 'src'), 'node_modules']
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
@@ -40,7 +40,7 @@ const config = {
 			},
 			{
 				test: /\.tpl$/,
-				loader: 'raw-loader'
+				use: 'raw-loader'
 			}
 		]
 	},

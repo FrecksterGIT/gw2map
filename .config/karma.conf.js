@@ -23,18 +23,19 @@ module.exports = function(config) {
 				modules: ['.', 'node_modules']
 			},
 			module: {
-				loaders: [
+				rules: [
 					{
 						test: /\.js$/,
 						exclude: /node_modules/,
 						use: ['babel-loader', 'eslint-loader']
 					},
 					{
-						test: /\.dot$/,
-						loader: 'dotjs-loader',
-						options: {
-							varname: 'context'
-						}
+						test: /node_modules\/can/,
+						use: ['babel-loader']
+					},
+					{
+						test: /\.tpl$/,
+						use: 'raw-loader'
 					}
 				]
 			}
